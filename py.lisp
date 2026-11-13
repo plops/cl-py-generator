@@ -60,7 +60,7 @@ source lines of a notebook cell."
 			   (loop for e in nb-code
 				 collect
 				 (let ((source (notebook-cell-source e)))
-				   (if (eq 'markdown (first e))
+				   (if (string-equal "markdown" (symbol-name (first e)))
 				       (list (cons "cell_type" "markdown")
 					     (cons "metadata" :empty)
 					     (cons "source" source))
@@ -422,12 +422,12 @@ Returns:
    without any lower-case letter are downcased (FOO -> foo, :A -> a), names
    that already contain lower-case letters (e.g. |MyVar| or |Optional|) are
    kept verbatim.  Non-symbols are printed as-is."
-  (let ((name (if (symbolp sym)
-                  (symbol-name sym)
-                  (format nil "~a" sym))))
-    (if (find-if #'lower-case-p name)
-        name
-        (string-downcase name))))
+  (if (symbolp sym)
+      (let ((name (symbol-name sym)))
+        (if (find-if #'lower-case-p name)
+            name
+            (string-downcase name)))
+      (format nil "~a" sym)))
 
 (defun comment-newlines (text)
   "Replace every newline in TEXT with a newline plus hash and blank."
@@ -666,7 +666,12 @@ Returns:
            ;; keep a space, otherwise (- a -1) would turn into a--1
            (format nil " ~a" (funcall emit arg))))
       ((numberp arg)
-       (funcall emit arg))
+       ;; a non-negative number as the object of dot needs parentheses:
+       ;; 3.bit_length() is a python syntax error (the parser reads 3.),
+       ;; while (3).bit_length() is correct
+       (if (and (eq parent-op 'dot) (realp arg))
+           (format nil "(~a)" (funcall emit arg))
+           (funcall emit arg)))
       ((stringp arg)			; raw python code, inserted verbatim
        arg)
       ((listp arg)
@@ -839,6 +844,18 @@ Returns:
 			  (with-output-to-string (s)
 			    (format s "lambda ~a: ~a"
 				    (emit `(ntuple ,@(append req-param
+							     (loop for o in opt-param
+								   collect (format nil "~a = ~a"
+										   (py-symbol-name (first o))
+										   (if (second o)
+										       (emit (second o))
+										       "None")))
+							     (when res-param
+							       (list (format nil "*~a"
+									     (py-symbol-name
+									      (if (listp res-param)
+										  (car res-param)
+										  res-param)))))
 							     (loop for e in key-param collect
 								   (destructuring-bind ((keyword-name name) init suppliedp)
 								       e

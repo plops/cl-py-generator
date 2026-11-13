@@ -306,6 +306,39 @@
                  (length warnings) (first warnings))))
 
 ;;; ------------------------------------------------------------------
+;;; Nachtrag aus dem Abnahme-Check (Fund 1 & Fund 2)
+;;; ------------------------------------------------------------------
+
+(define-issue-test "write-notebook-markdown-any-package"
+  "write-notebook muss markdown-Zellen auch aus fremden Paketen (z. B. CL-USER) als cell_type \"markdown\" schreiben."
+  (let* ((dir (uiop:ensure-directory-pathname
+               (merge-pathnames "cl-py-gen-issue-md/" (uiop:temporary-directory))))
+         (nb (merge-pathnames "md_pkg.ipynb" dir))
+         (md-sym (intern "MARKDOWN" :cl-user)))
+    (ensure-directories-exist dir)
+    (unwind-protect
+         (progn
+           (write-notebook :nb-file (namestring nb)
+                           :nb-code (list (list md-sym "# Titel")))
+           (let ((json (uiop:read-file-string nb)))
+             (assert-true (and (search "\"markdown\"" json)
+                               (not (search "\"code\"" json)))
+                          "Markdown-Zelle aus CL-USER wurde nicht als cell_type \"markdown\" geschrieben:~%~a"
+                          json)))
+      (uiop:delete-directory-tree dir :validate t :if-does-not-exist :ignore))))
+
+(define-issue-test "py-symbol-name-preserves-non-symbols"
+  "py-symbol-name darf Nicht-Symbole (wie rohe Strings in Grossbuchstaben) laut Docstring nicht kleinschreiben."
+  (let ((direct (cl-py-generator::py-symbol-name "API"))
+        (emitted (emit-py :clear-env t :code '(class "API" () pass))))
+    (assert-true (string= "API" direct)
+                 "py-symbol-name auf String \"API\" erwartet \"API\", erhalten: ~s"
+                 direct)
+    (assert-true (search "class API:" emitted)
+                 "Klassenname aus rohem String \"API\" wurde kleingeschrieben: ~s"
+                 emitted)))
+
+;;; ------------------------------------------------------------------
 ;;; Runner
 ;;; ------------------------------------------------------------------
 
