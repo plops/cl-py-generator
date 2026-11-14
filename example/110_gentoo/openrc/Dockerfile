@@ -17,17 +17,17 @@ ARG BUILD_DATE=unknown
 
 # Portage configuration
 RUN eselect profile set default/linux/amd64/23.0/no-multilib
-COPY config/package.accept_keywords /etc/portage/package.accept_keywords/package.accept_keywords
+COPY config/etc/portage/package.accept_keywords /etc/portage/package.accept_keywords/package.accept_keywords
 RUN mkdir -p /etc/portage/package.mask
-COPY config/package.mask /etc/portage/package.mask/package.mask
+COPY config/etc/portage/package.mask /etc/portage/package.mask/package.mask
 
 
 # Repository tooling and package configuration
-COPY config/make.conf /etc/portage/make.conf
-COPY config/package.use /etc/portage/package.use
-COPY config/package.env /etc/portage/package.env
-COPY config/env /etc/portage/env
-COPY config/world /var/lib/portage/world
+COPY config/etc/portage/make.conf /etc/portage/make.conf
+COPY config/etc/portage/package.use /etc/portage/package.use
+COPY config/etc/portage/package.env /etc/portage/package.env
+COPY config/etc/portage/env /etc/portage/env
+COPY config/var/lib/portage/world /var/lib/portage/world
 COPY config/dwm-6.8 /etc/portage/savedconfig/x11-wm/dwm-6.8
 ENV KVER_PURE=6.18.60
 ENV KVER_SOURCE=${KVER_PURE}-gentoo

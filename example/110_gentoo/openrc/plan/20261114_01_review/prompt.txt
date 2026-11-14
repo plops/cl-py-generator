@@ -1,0 +1,39 @@
+reviewe das folgende dockerprojekt. ich moechte es aufraeumen. 
+
+es gibt einige kommentare die sollen in der docker file drin bleiben (zum beispiel dass world build in teile geteilt wird, das sollst du uebrigens wieder aktivieren, denn ich habe viele aenderungen an world und package.use gemacht)
+
+schreibe einen expliziten plan um die findings zu korrigieren. ich werde diesen plan von einem (relativ) dummen AI agenten durchfuehren lassen. dies bedeutet dass du ziemlich explizit sein musst und quellcode und architektur, sowie die abfolge der schritte und eventuelle tests explizit auflisten musst
+
+es gibt in plan/20261114_01_review/plan_fix.md bereits einen draft fuer einen plan.
+
+stelle mir fragen (grill-me) falls noch unklarheiten bestehen bevor du mit dem vollstaendigen review und dem plan mit den fixes antwortest.
+
+der agent arbeitet mit dem host ordner /home/kiel/stage/ gemappt auf /workspace/src im docker container.
+
+mein manueller workflow um use flags zu configurieren mittels
+config/config-gentoo.sh soll weiterhin funktionieren.
+
+ich bin bereits manuell mit qdirstat durchgegangen und habe die
+groessten stoerenden datein explizit excludiert (firmware zeug und *.a
+dateien)
+
+ideal waere wenn wir die build dependencies aus dem finalen squashfs
+image entfernen koennen. ich nutze das system aber um c++, rust und
+common lisp zu entwickeln (also tools wie gcc, gdb, rustc und sbcl
+sollen nicht entfernt werden). vielleicht koennte man das
+gesamtkonzept so umstellen, dass erstmal alle packete gebaut (oder von
+binhost geladen) werden und danach das squashfs aus den binaerpacketen
+befuellt wird.
+
+wenn du groessere aenderungen machst, dann solltest du dafuer sorgen,
+dass es ausreichend validierungen, smoke tests und logging gibt um
+fehler zu identifizieren. der bau wird sicher 2h dauern. zur
+vernuenftigen vorgehensweise gehoert zum beispiel dass `emerge @world`
+in bloceken durchgefuehrt wird. wenn dann alles geht koennen wieder
+auf einen einzelnen emrge layer zurueckgehen.
+
+ich habe mit meinem gentoo-dep-tui tool hersausgefunden, dass ich die
+mupdf dependencies verkleinern kann (keine opengl oder javascript)
+wenn ich zathura fuer das interface nutze.
+
+<output from collect.sh>
