@@ -4,5 +4,8 @@ es gibt einige kommentare die sollen in der docker file drin bleiben (zum beispi
 
 schreibe einen expliziten plan um die findings zu korrigieren. ich werde diesen plan von einem (relativ) dummen AI agenten durchfuehren lassen. dies bedeutet dass du ziemlich explizit sein musst und quellcode und architektur, sowie die abfolge der schritte und eventuelle tests explizit auflisten musst
 
+es gibt in plan/20261114_01_review/plan_fix.md bereits einen draft fuer einen plan.
+
+stelle mir fragen (grill-me) falls noch unklarheiten bestehen bevor du mit dem vollstaendigen review und dem plan mit den fixes antwortest.
 
 <output from collect.sh>
