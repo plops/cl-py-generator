@@ -81,7 +81,7 @@ sys-apps/usbutils
 sys-firmware/sof-firmware
 sys-fs/btrfs-progs
 sys-fs/cryptsetup
-sys-fs/erofs-utils
+#sys-fs/erofs-utils
 sys-fs/lvm2
 sys-fs/squashfs-tools
 sys-kernel/dracut

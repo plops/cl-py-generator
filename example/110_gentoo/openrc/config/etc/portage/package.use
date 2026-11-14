@@ -25,3 +25,14 @@ net-misc/mosh -utempter
 net-print/cups -dbus
 sys-power/tlp -ppd -python_single_target_python3_14 -rdw
 www-client/firefox -clang -dbus -gmp-autoupdate -jumbo-build system-pipewire system-png -telemetry
+dev-debug/gdb -debuginfod -python -python_single_target_python3_14
+media-video/mpv -egl -lua -uchardet vaapi -vulkan
+www-client/firefox -dbus -gmp-autoupdate hwaccel -jumbo-build system-pipewire system-png -telemetry
+x11-base/xorg-server xorg
+app-misc/mc -edit -slang
+dev-debug/strace ncurses
+dev-libs/nss -utils
+net-dns/dnsmasq -dumpfile
+sys-apps/nvme-cli -json
+sys-apps/smartmontools -daemon
+sys-fs/lvm2 lvm readline
