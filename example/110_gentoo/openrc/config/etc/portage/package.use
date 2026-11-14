@@ -8,8 +8,6 @@ sys-fs/lvm2 lvm
 media-video/pipewire alsa dbus sound-server udev
 media-video/wireplumber dbus
 sys-fs/squashfs-tools xattr -debug -lz4 -lzma -lzo zstd
-net-misc/freerdp X alsa pulseaudio 
-app-text/mupdf X opengl javascript
 sys-auth/elogind pam policykit
 sys-auth/polkit elogind
 sys-apps/dbus elogind
@@ -18,3 +16,12 @@ media-libs/libglvnd X
 x11-libs/libxkbcommon X
 app-editors/emacs -dbus -gmp gtk gui -libxml2 -xpm
 net-analyzer/wireshark -capinfos -captype -dftest -dumpcap -editcap -filecaps -mergecap -minizip -netlink -randpkt -randpktdump -reordercap -sharkd -text2pcap -tshark -udpdump -zstd
+app-text/mupdf -javascript -jpeg2k
+app-text/zathura-pdf-mupdf -javascript
+net-misc/freerdp X aad client -fuse
+app-text/zathura -man
+dev-vcs/git -gpg -nls -pcre -perl -python_single_target_python3_14 -webdav
+net-misc/mosh -utempter
+net-print/cups -dbus
+sys-power/tlp -ppd -python_single_target_python3_14 -rdw
+www-client/firefox -clang -dbus -gmp-autoupdate -jumbo-build system-pipewire system-png -telemetry
