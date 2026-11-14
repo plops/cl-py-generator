@@ -36,3 +36,6 @@ net-dns/dnsmasq -dumpfile
 sys-apps/nvme-cli -json
 sys-apps/smartmontools -daemon
 sys-fs/lvm2 lvm readline
+app-admin/sudo -sendmail
+net-dialup/picocom -man
+sys-fs/btrfs-progs -man
