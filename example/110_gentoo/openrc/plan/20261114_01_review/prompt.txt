@@ -1,0 +1,8 @@
+reviewe das folgende dockerprojekt. ich moechte es aufraeumen. 
+
+es gibt einige kommentare die sollen in der docker file drin bleiben (zum beispiel dass world build in teile geteilt wird, das sollst du uebrigens wieder aktivieren, denn ich habe viele aenderungen an world und package.use gemacht)
+
+schreibe einen expliziten plan um die findings zu korrigieren. ich werde diesen plan von einem (relativ) dummen AI agenten durchfuehren lassen. dies bedeutet dass du ziemlich explizit sein musst und quellcode und architektur, sowie die abfolge der schritte und eventuelle tests explizit auflisten musst
+
+
+<output from collect.sh>
