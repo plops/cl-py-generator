@@ -1,0 +1,2 @@
+# Mask newer gentoo-sources to prevent accidental upgrade beyond 6.18
+>=sys-kernel/gentoo-sources-6.19
