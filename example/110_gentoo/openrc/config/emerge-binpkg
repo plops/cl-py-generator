@@ -1,0 +1,117 @@
+#!/usr/bin/env bash
+# Wrapper zum Nachinstallieren und Entfernen von Paketen (z. B. BDEPENDs) im
+# laufenden OverlayFS aus den exportierten lokalen Binpkgs + Upstream-Binhost.
+set -euo pipefail
+
+BINPKG_DIR="${BINPKG_DIR:-}"
+MODE="install"
+OFFLINE=0
+AUTO_YES=0
+EXTRA_OPTS=()
+ATOMS=()
+
+usage() {
+  cat <<'USAGE'
+Verwendung:
+  BINPKG_DIR=/pfad/zu/binpkgs emerge-binpkg [OPTIONEN] <paket...>
+  emerge-binpkg --binpkg-dir /pfad/zu/binpkgs [OPTIONEN] <paket...>
+  emerge-binpkg --remove [--yes] <paket...>
+  BINPKG_DIR=/pfad/zu/binpkgs emerge-binpkg --list
+
+Optionen:
+  --binpkg-dir DIR   Pfad zum binpkgs-Verzeichnis (alternativ Env BINPKG_DIR;
+                     kein automatisches Mounten)
+  --offline          Nur lokale Binpkgs nutzen:
+                     FEATURES="-getbinpkg -binpkg-request-signature"
+                     (Default ist Online-Hybrid: lokale PKGDIR ohne Signaturzwang
+                     + Upstream-Binhost via binrepos.conf mit Signaturpruefung)
+  --list             Listet alle lokal verfuegbaren Binpkgs im PKGDIR auf
+  --remove           Entfernt angegebene Pakete aus dem OverlayFS (emerge -C)
+                     und raeumt ungenutzte Abhaengigkeiten (emerge --depclean)
+  --force            Erlaubt --remove auch fuer @world-Pakete
+  -y, --yes          Kein interaktives Nachfragen beim Entfernen (--depclean)
+  -p, --pretend      Nur Trockenlauf an emerge durchreichen
+  -v, --verbose      Ausfuehrliche emerge-Ausgabe
+  -h, --help         Diese Hilfe
+
+Beispiele:
+  export BINPKG_DIR=/mnt/usb/gentoo-z6-min-openrc_20261115/binpkgs
+  sudo -E emerge-binpkg dev-lang/rust-bin
+  sudo -E emerge-binpkg --offline dev-build/cmake
+  sudo emerge-binpkg --remove --yes dev-lang/rust-bin
+USAGE
+}
+
+FORCE_REMOVE=0
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --binpkg-dir) BINPKG_DIR="${2:?--binpkg-dir braucht ein Argument}"; shift 2 ;;
+    --offline)    OFFLINE=1; shift ;;
+    --list)       MODE="list"; shift ;;
+    --remove)     MODE="remove"; shift ;;
+    --force)      FORCE_REMOVE=1; shift ;;
+    -y|--yes)     AUTO_YES=1; shift ;;
+    -p|--pretend|-v|--verbose|-pv|-vp) EXTRA_OPTS+=("$1"); shift ;;
+    -h|--help)    usage; exit 0 ;;
+    --)           shift; ATOMS+=("$@"); break ;;
+    -*)           EXTRA_OPTS+=("$1"); shift ;;
+    *)            ATOMS+=("$1"); shift ;;
+  esac
+done
+
+resolve_pkgdir() {
+  local d="${1:-}"
+  if [ -z "${d}" ]; then
+    echo "[FEHLER] BINPKG_DIR ist nicht gesetzt und --binpkg-dir wurde nicht angegeben." >&2
+    echo "Hinweis: Binpkg-Verzeichnis wird nicht automatisch gemountet." >&2
+    echo "Beispiel: export BINPKG_DIR=/pfad/zu/gentoo-z6-min-openrc_YYYYMMDD/binpkgs" >&2
+    exit 1
+  fi
+  if [ -f "${d}/Packages" ]; then
+    printf '%s' "${d}"
+  elif [ -f "${d}/binpkgs/Packages" ]; then
+    printf '%s' "${d}/binpkgs"
+  else
+    echo "[FEHLER] Kein gueltiges binpkgs-Verzeichnis (Packages-Index fehlt in: ${d})." >&2
+    exit 1
+  fi
+}
+
+if [ "${MODE}" = "list" ]; then
+  PKGDIR_PATH="$(resolve_pkgdir "${BINPKG_DIR}")"
+  awk '/^CPV:/ {cpv=$2} /^SIZE:/ {printf "%-48s %8.2f MiB\n", cpv, $2/1048576}' "${PKGDIR_PATH}/Packages" | sort
+  exit 0
+fi
+
+if [ "${#ATOMS[@]}" -eq 0 ]; then
+  echo "[FEHLER] Mindestens ein Paket-Atom angeben (siehe --help)." >&2
+  exit 1
+fi
+
+if [ "${MODE}" = "remove" ]; then
+  if [ "${FORCE_REMOVE}" -ne 1 ] && [ -f /var/lib/portage/world ]; then
+    for a in "${ATOMS[@]}"; do
+      if grep -qx "${a}" /var/lib/portage/world; then
+        echo "[FEHLER] ${a} steht in /var/lib/portage/world. Abbruch (mit --force erzwingen)." >&2
+        exit 1
+      fi
+    done
+  fi
+  emerge --unmerge "${EXTRA_OPTS[@]}" "${ATOMS[@]}"
+  if [ "${AUTO_YES}" -eq 1 ]; then
+    emerge --depclean "${EXTRA_OPTS[@]}"
+  else
+    emerge --depclean --ask "${EXTRA_OPTS[@]}"
+  fi
+  exit 0
+fi
+
+PKGDIR_PATH="$(resolve_pkgdir "${BINPKG_DIR}")"
+if [ "${OFFLINE}" -eq 1 ]; then
+  FEATURES_ARG="-getbinpkg -binpkg-request-signature"
+else
+  FEATURES_ARG="-binpkg-request-signature"
+fi
+
+exec env PKGDIR="${PKGDIR_PATH}" FEATURES="${FEATURES_ARG}" \
+  emerge -1 --usepkg "${EXTRA_OPTS[@]}" "${ATOMS[@]}"
