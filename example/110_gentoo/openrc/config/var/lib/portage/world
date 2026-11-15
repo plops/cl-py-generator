@@ -93,8 +93,8 @@ sys-process/htop
 sys-process/iotop
 sys-process/lsof
 sys-process/psmisc
-#www-client/firefox-bin
-www-client/firefox
+www-client/firefox-bin
+#www-client/firefox
 x11-apps/setxkbmap
 x11-apps/xhost
 x11-apps/xkill
@@ -113,3 +113,4 @@ app-text/zathura
 app-text/zathura-pdf-mupdf
 dev-build/cmake
 dev-util/pkgconf
+sys-kernel/installkernel

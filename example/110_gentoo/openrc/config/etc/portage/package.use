@@ -13,7 +13,7 @@ sys-auth/polkit elogind
 sys-apps/dbus elogind
 app-text/xmlto text
 media-libs/libglvnd X
-media-libs/libxkbcommon X
+x11-libs/libxkbcommon X
 app-editors/emacs -dbus -gmp gtk gui -libxml2 -xpm
 net-analyzer/wireshark -capinfos -captype -dftest -dumpcap -editcap -filecaps -mergecap -minizip -netlink -randpkt -randpktdump -reordercap -sharkd -text2pcap -tshark -udpdump -zstd
 app-text/mupdf -javascript -jpeg2k
@@ -24,7 +24,9 @@ dev-vcs/git -gpg -nls -pcre -perl -python_single_target_python3_14 -webdav
 net-misc/mosh -utempter
 net-print/cups -dbus
 sys-power/tlp -ppd -rdw
+# Source-Firefox-Flags (greifen, sobald www-client/firefox in world aktiv ist):
 www-client/firefox -clang -dbus -gmp-autoupdate hwaccel -jumbo-build system-pipewire system-png -telemetry
+www-client/firefox-bin -gmp-autoupdate -telemetry
 dev-debug/gdb -debuginfod -python -python_single_target_python3_14
 media-video/mpv -egl -lua -uchardet vaapi -vulkan
 x11-base/xorg-server xorg
@@ -37,7 +39,8 @@ sys-apps/smartmontools -daemon
 app-admin/sudo -sendmail
 net-dialup/picocom -man
 sys-fs/btrfs-progs -man
-media-libs/mesa -llvm
+media-libs/mesa llvm
+sys-kernel/installkernel dracut -grub
 # Vom Solver gefordert (implizit durch obige Flags):
 # firefox[system-png] braucht libpng[apng]; mpv[vaapi] braucht ffmpeg[vaapi] + libva[X]
 media-libs/libpng apng
