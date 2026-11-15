@@ -1,8 +1,13 @@
-# this script is used to find good (minimal) USE flag settings
-# interactively
+#!/usr/bin/env bash
+set -euo pipefail
 
-~/Downloads/gentoo-dep-tui \
-    --repo /var/db/repos/gentoo \
-    --portage-dir etc/portage \
-    --world var/lib/portage/world \
-    --binhost /tmp/Packages
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+GENTOO_DEP_TUI="${GENTOO_DEP_TUI:-${HOME}/Downloads/gentoo-dep-tui}"
+REPO_DIR="${REPO_DIR:-/var/db/repos/gentoo}"
+BINHOST_DIR="${BINHOST_DIR:-/tmp/Packages}"
+
+exec "${GENTOO_DEP_TUI}" \
+    --repo "${REPO_DIR}" \
+    --portage-dir "${SCRIPT_DIR}/etc/portage" \
+    --world "${SCRIPT_DIR}/var/lib/portage/world" \
+    --binhost "${BINHOST_DIR}"

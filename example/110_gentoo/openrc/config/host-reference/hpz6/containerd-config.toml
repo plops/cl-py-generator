@@ -1,0 +1,4 @@
+# containerd image store (used by dockerd's containerd snapshotter) lives on the data disk.
+version = 3
+root = "/mnt/docker/containerd"
+state = "/run/containerd"
