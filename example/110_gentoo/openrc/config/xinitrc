@@ -1,7 +1,12 @@
-xrandr --output DP-0 --scale 1x1 --rotate left; xrandr --output DP-2 --scale 1x1 --rotate right; xrandr --output DP-2 --right-of DP-0
+#!/bin/sh
 
-# xrandr --output DP-0 --scale 2x2; xrandr --output DP-2 --scale 2x2 --pos 2160x0
-# xrandr --output DP-0 --scale 2x2; xrandr --output DP-2 --scale 2x2 --below DP-0 --pos 0x3840
+# HP Z6 dual-vertical layout only when those outputs exist (no-op on ThinkPad E14 eDP)
+if xrandr --query 2>/dev/null | grep -q '^DP-0 connected' \
+  && xrandr --query 2>/dev/null | grep -q '^DP-2 connected'; then
+    xrandr --output DP-0 --scale 1x1 --rotate left
+    xrandr --output DP-2 --scale 1x1 --rotate right
+    xrandr --output DP-2 --right-of DP-0
+fi
 
 export XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR:-/run/user/$(id -u)}"
 export DBUS_SESSION_BUS_ADDRESS="${DBUS_SESSION_BUS_ADDRESS:-unix:path=${XDG_RUNTIME_DIR}/bus}"
@@ -11,11 +16,10 @@ setxkbmap -layout us -variant colemak
 
 xterm -e btop &
 slstatus &
-#xterm &
-# Start PipeWire stack
-~/start-pipewire.sh &
 
-cd /home/kiel
-# Use dbus-run-session to ensure a working session bus
-exec dbus-run-session dwm
-#exec /usr/local/bin/plwm
+cd /home/kiel || exit 1
+if [ -S "${XDG_RUNTIME_DIR}/bus" ]; then
+  exec dwm
+else
+  exec dbus-run-session dwm
+fi

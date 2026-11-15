@@ -1,6 +1,12 @@
 #!/bin/sh
 set -eu
 
+STAGE_ROOT="${STAGE_ROOT:-/home/kiel/stage}"
+config_root="${OPENRC_CONFIG_ROOT:-/usr/local/share/openrc-host-config}"
+if [ ! -d "${config_root}" ] && [ -d "${STAGE_ROOT}/cl-py-generator/example/110_gentoo/openrc/config" ]; then
+  config_root="${STAGE_ROOT}/cl-py-generator/example/110_gentoo/openrc/config"
+fi
+
 try_modprobe() {
   modprobe "$1" 2>/dev/null || true
 }
@@ -14,23 +20,18 @@ sync_initd() {
   fi
 }
 
-config_root=/usr/local/share/openrc-host-config
-if [ ! -d "${config_root}" ] && [ -d /home/kiel/stage/cl-py-generator/example/110_gentoo/openrc/config ]; then
-  config_root=/home/kiel/stage/cl-py-generator/example/110_gentoo/openrc/config
-fi
-
 is_e14=0
 if [ -r /sys/class/dmi/id/product_version ] \
   && grep -q "ThinkPad E14" /sys/class/dmi/id/product_version 2>/dev/null; then
   is_e14=1
 fi
 
-rc-service udev start
-rc-service udev-trigger start
-rc-service udev-settle start
-rc-service hostname start
+rc-service udev start 2>/dev/null || true
+rc-service udev-trigger start 2>/dev/null || true
+rc-service udev-settle start 2>/dev/null || true
+rc-service hostname start 2>/dev/null || true
 rc-service elogind start 2>/dev/null || true
-rc-service dbus start
+rc-service dbus start 2>/dev/null || true
 rc-service user-runtime start 2>/dev/null || true
 
 sync_initd "${config_root}/reverse-ssh-eu.initd" /etc/init.d/reverse-ssh-eu
@@ -54,19 +55,21 @@ if [ "${is_e14}" -eq 1 ]; then
   fi
 fi
 
-KEYMAP_PATH="$(find /usr/share/keymaps -path '*/colemak/en.latin*.gz' | sort | head -n 1)"
+KEYMAP_PATH="$(find /usr/share/keymaps -path '*/colemak/en.latin*.gz' | sort | head -n 1 || true)"
 if [ -n "${KEYMAP_PATH}" ]; then
   loadkeys "${KEYMAP_PATH}"
 fi
 
-# Refresh linker state after package upgrades so interactive applications can
-# still resolve libgcc_s/libstdc++ from the currently installed slot.
-env-update
-ldconfig
+# Refresh linker cache only when persistent overlay cache is older than the booted image
+if [ -e /IMAGE-BUILD-INFO.txt ] && [ /IMAGE-BUILD-INFO.txt -nt /etc/ld.so.cache ]; then
+  env-update
+  ldconfig
+fi
 
-depmod -a
 try_modprobe snd_hda_intel
 try_modprobe snd_pci_ps
 try_modprobe snd_soc_ps_mach
 try_modprobe snd_sof_amd_acp63
-/etc/init.d/tlp start
+if [ "${is_e14}" -eq 1 ]; then
+  rc-service tlp start 2>/dev/null || true
+fi
