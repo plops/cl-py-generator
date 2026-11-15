@@ -1,40 +1,3 @@
-Hier ist zunächst ein technisches **Review** des aktuellen Quellcodes, der Skripte und des bisherigen `walkthrough.md`, gefolgt vom komplett überarbeiteten **`plan/20261115_01_review/walkthrough.md`** zum direkten Übernehmen.
-
----
-
-## Teil 1: Review des Quellcodes, der Skripte und des bisherigen `walkthrough.md`
-
-### 1.1 Was technisch sehr sauber gelöst ist
-* **Saubere Trennung in `builder` → `target` → Varianten (`Dockerfile`):** `extract_local_binpkgs.py` läuft im `builder` *nach* dem `xkeyboard-config`-Quell-Rebuild und *vor* `quickpkg` und `genlop`. Dadurch bleiben `quickpkg`-Snapshots strikt auf `/tmp/target-binpkgs` beschränkt und `genlop` (mit `FEATURES="-buildpkg"`) verschmutzt den Export nicht.
-* **Zuverlässiger Klassifikator (`config/extract_local_binpkgs.py`):** Die Erkenntnis aus Phase 1.2, dass Portage `BINPKGMD5` auch bei eigenen Quellbuilds schreibt und im Log `Compiling/Packaging` bzw. `Merging Binary` verwendet, ist sauber umgesetzt. Der Download des Upstream-`Packages`-Index vom `sync-uri` (mit Cache-Fallback) macht die URL-Auflösung robust.
-* **Keyring-Export für Hybrid-Installation (`Dockerfile`):** Das Kopieren von `/etc/portage/gnupg` vom `builder` ins `target` inkl. Entfernen von `S.*`/`.#*` und `chmod 0755`/`0644` (weil Portage Signaturen als unprivilegierter Benutzer `portage` prüft) löst das `NO_PUBKEY`-Problem sauber.
-* **`/etc/hosts` über `mksquashfs -p`:** Da Docker `/etc/hosts` read-only einhängt, umgeht `-p "/etc/hosts f 0644 0 0 cat /tmp/hosts.variant"` zusammen mit `-e etc/hosts` das Build-Problem ohne Umwege.
-* **Cache-Erhalt beim Export (`setup01_build_image.sh` + `setup03_copy_from_container.sh`):** Durch `logs/last_build_args.env` bekommt auch der separate Export-Aufruf in `setup03` identische `BUILD_*`-Args und trifft den BuildKit-Cache.
-* **E14-Deployment (`install_on_e14.sh`):** UUID-basiertes Mounten, Platzprüfung mit Sicherheitspuffer, Schutz des aktuell gebooteten Slots, SHA-256-Verifikation und bewusster Verzicht auf `binpkgs/` auf `/1p2`.
-
-### 1.2 Konkrete Befunde im Quellcode und in den Skripten
-
-| Prio | Fundstelle | Befund & Auswirkung | Empfohlener Fix |
-| :--- | :--- | :--- | :--- |
-| **Mittel** | `Dockerfile` (`/etc/local.d/10-hosts.start`, Zeile 187–194) | **Regex-Bug bei Tab-Einrückung:** In `variant-nv` und `variant-e14` wird `/etc/hosts` per `printf '127.0.0.1\te14 localhost\n...'` (mit **Tab** `\t` zwischen IP und Hostname) erzeugt. `10-hosts.start` prüft aber mit `grep -Eq "^127\.0\.0\.1[[:space:]].* ${h}( |$)"`. `[[:space:]]` schluckt das Tab, danach verlangt `.* ` zwingend ein **Leerzeichen** vor `${h}`. Der Check schlägt also immer fehl und schreibt `/etc/hosts` beim Booten unnötig ins persistente Overlay (`upper`). | Regex auf `^127\.0\.0\.1([[:space:]].*)?[[:space:]]${h}([[:space:]]|$)` ändern. |
-| **Mittel** | `config/emerge-binpkg` (`--list` & `--remove`) | **1) `--list` zeigt CPVs mit Version** (z. B. `app-misc/jq-1.8.1`), während `emerge-binpkg <paket>` ein Atom ohne Version (oder mit `=`-Präfix) erwartet. Wer eine Zeile aus `--list` direkt kopiert, bekommt einen `emerge`-Fehler.<br>**2) `--remove`** prüft `@world` per `grep -qx "${a}"`. Bei eingeschränkten Atomen in `world` (z. B. `<sys-kernel/gentoo-sources-6.19`) greift der Schutz bei `emerge-binpkg --remove sys-kernel/gentoo-sources` nicht. | In `--list` zusätzlich den reinen Paketnamen (`CP`) oder direkt den `=CPV`-Aufruf anzeigen (oder im Skript automatisch `=` voranstellen, wenn eine Version angehängt ist). Für `--remove` ggf. `grep -qE "(^|[<>=~])${a}(-[0-9]|$)"` prüfen. |
-| **Niedrig** | `config/emerge-binpkg` & `doc/binpkg_overlay_usage.md` | **Signatur-Erklärung leicht missverständlich:** `emerge-binpkg` setzt global `FEATURES="-binpkg-request-signature"`. Dass Upstream-Pakete im Hybrid-Modus trotzdem per `/etc/portage/gnupg` signaturgeprüft werden (belegt durch `NO_PUBKEY` in `evidence.md` 4d), liegt an `verify-signature = true` pro Repo in Portages `binrepos.conf`, nicht an `FEATURES`. | Kommentar im Skript und in `doc/binpkg_overlay_usage.md` dahingehend präzisieren. |
-| **Niedrig** | `Dockerfile` (`variant-e14`, Zeile 527) | **`packages.txt`/`packages.tsv` spiegelt `target`, nicht `variant-e14`:** `variant-e14` installiert `net-dns/openresolv` nach und entfernt `x11-drivers/nvidia-drivers`. Die exportierten `packages.*` kommen aber aus `target` (enthalten also noch `nvidia-drivers` und kein `openresolv`). | Ist akzeptabel, solange es dokumentiert ist; alternativ pro Variante ein `packages_<var>.txt` erzeugen oder in `IMAGE-BUILD-INFO.txt` erwähnen. |
-| **Niedrig** | `config/etc/portage/make.conf` (`EMERGE_DEFAULT_OPTS`) | `EMERGE_DEFAULT_OPTS="--jobs=32 --load-average=32 ..."` gilt über das Image auch auf dem E14. Für Binpkgs unproblematisch; falls dort mit `emerge` doch einmal aus Quellen gebaut wird, kann `-j32` RAM-Druck erzeugen. | So belassen (solange `binpkgs` genutzt werden) oder im `target` `MAKEOPTS`/`--jobs` bei Bedarf moderater setzen. |
-
-### 1.3 Warum das bisherige `plan/20261115_01_review/walkthrough.md` schwer verständlich war
-1. **Telegramm- und Agenten-Jargon:** Formulierungen wie *„150 Dateien, 2160,4 MiB, Dateianzahl = Index-Einträge“*, *„xkeyboard-Rebuild → Export nach /out_binpkgs → Kopie nach /tmp/target-binpkgs + quickpkg dort“* oder *„qlist | grep -q unter pipefail stirbt an SIGPIPE“* erklären nicht, **was** passiert und **warum** es nötig war.
-2. **Fehlende Kausalketten:** Warum führt ein `quickpkg`-Snapshot von `xkeyboard-config` oder `nvidia-drivers` zu einem kaputten Binpkg? Warum enthält `/var/db/pkg` bei *allen* Paketen eine `BINPKGMD5`? Warum scheitert `emerge --usepkgonly` an `@world`, während `--usepkg` klappt? Diese zentralen Zusammenhänge fehlten.
-3. **Kaum nutzbare Praxis-Beispiele:** Es gab kein konkretes Beispiel, wie man das neue `binpkgs/`-Verzeichnis am laufenden E14 oder HP Z6 per USB/Netz tatsächlich benutzt.
-4. **Unvollständiges Glossar & knappe Paketliste:** Abkürzungen wie `CPV`, `VDB`, `NVPTX`, `Dracut`, `Initramfs`, `SIGPIPE` wurden vorausgesetzt; die Paketliste am Ende war nur ein unübersichtlicher Fließtext.
-
----
-
-## Teil 2: Überarbeitetes `plan/20261115_01_review/walkthrough.md`
-
-Der folgende Block kann 1:1 als neue Datei `plan/20261115_01_review/walkthrough.md` gespeichert werden:
-
-```markdown
 # Walkthrough: Lokale Binärpakete exportieren, im laufenden System nachinstallieren und Image-Rebuild (2026-11-15)
 
 Dieses Dokument erklärt Schritt für Schritt, wie der Gentoo-OpenRC-Build vom 15.11.2026 aufgebaut wurde, wie das Nachinstallieren von Build-Werkzeugen über lokale Binärpakete funktioniert und warum einzelne Teile während der Tests umgebaut werden mussten.
@@ -232,4 +195,4 @@ Während der Umsetzung traten vier konkrete Fehler auf, die zu gezielten Korrekt
 | **Variante E14** | `net-dns/openresolv` | In `variant-e14` ergänzt, damit `iwd` DNS-Server sauber über `resolvconf` eintragen kann. |
 | **Sauber entfernt / aus `target` ferngehalten** | `dev-lang/rust`, `dev-lang/go`, `app-portage/gentoolkit`, `sys-boot/grub` | Per Negativ-Prüfung in `packages.tsv` ausgeschlossen bestätigt. `BDEPEND`s wie `go` oder `rust-bin` werden bei Bedarf über `emerge-binpkg` nachinstalliert. |
 | **Größte Pakete (Basis)** | `linux-firmware` (1991 MiB), `gentoo-sources` (1475 MiB), `nvidia-drivers` (1135 MiB), `signal-desktop-bin` (364 MiB), `gcc` (305 MiB, 19 min 32 s) | `linux-firmware` und `nvidia-drivers` werden in den beiden Squashfs-Varianten jeweils auf die konkret benötigte Hardware reduziert bzw. entfernt. |
-```
+
