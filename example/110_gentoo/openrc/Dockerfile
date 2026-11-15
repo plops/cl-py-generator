@@ -1,148 +1,225 @@
+# syntax=docker/dockerfile:1
 
-# syntax=docker/dockerfile:1  # REQUIRED for build-time mounts
+ARG PORTAGE_TAG=20261106
+ARG STAGE3_TAG=nomultilib
 
-# Base images
-FROM gentoo/portage:20261109 AS portage
+FROM gentoo/portage:${PORTAGE_TAG} AS portage
+FROM gentoo/stage3:${STAGE3_TAG} AS stage3_base
 
-# Stage3 base (1GB)
-# https://hub.docker.com/r/gentoo/stage3/tags
-FROM gentoo/stage3:nomultilib AS base
-# https://hub.docker.com/r/gentoo/portage/tags
-# Copy full Portage tree (570MB)
+# ==============================================================================
+# Stage 1: Builder (compiles kernel, @world binary packages, slstatus)
+# ==============================================================================
+FROM stage3_base AS builder
+
 COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
 
-ARG BUILD_GIT_COMMIT=unknown
-ARG BUILD_REPOSITORY=unknown
-ARG BUILD_DATE=unknown
-
-# Portage configuration
 RUN eselect profile set default/linux/amd64/23.0/no-multilib
 COPY config/etc/portage/package.accept_keywords /etc/portage/package.accept_keywords/package.accept_keywords
 RUN mkdir -p /etc/portage/package.mask
 COPY config/etc/portage/package.mask /etc/portage/package.mask/package.mask
-
-
-# Repository tooling and package configuration
 COPY config/etc/portage/make.conf /etc/portage/make.conf
 COPY config/etc/portage/package.use /etc/portage/package.use
 COPY config/etc/portage/package.env /etc/portage/package.env
 COPY config/etc/portage/env /etc/portage/env
 COPY config/var/lib/portage/world /var/lib/portage/world
-COPY config/dwm-6.8 /etc/portage/savedconfig/x11-wm/dwm-6.8
-ENV KVER_PURE=6.18.62
+COPY config/dwm-6.8 /etc/portage/savedconfig/x11-wm/dwm
+
+# Build binary packages for all emerged packages so target stage installs without BDEPENDs.
+# make.conf requests signed binpkgs (binpkg-request-signature), but the builder
+# has no signing key, so freshly built local binpkgs would fail verification
+# ("binpkg appears unsigned") and abort the emerge. Disable only the signature
+# *request* here; the final make.conf in the image keeps it for later operation.
+RUN printf '\nFEATURES="${FEATURES} buildpkg -binpkg-request-signature"\n' >> /etc/portage/make.conf
+
+ENV KVER_PURE=6.18.60
 ENV KVER_SOURCE=${KVER_PURE}-gentoo
 ENV KVER_RELEASE=${KVER_SOURCE}-dist
 
-RUN emerge =sys-kernel/gentoo-sources-${KVER_PURE}
-
-RUN eselect kernel list
-RUN eselect kernel set linux-${KVER_SOURCE}
-WORKDIR /usr/src/linux
-COPY config/config6.18.48 .config
-RUN sed -i \
-    -e 's/^CONFIG_LOCALVERSION="-gentoo-dist"/CONFIG_LOCALVERSION="-dist"/' \
-    -e 's/^CONFIG_DEBUG_INFO=y/# CONFIG_DEBUG_INFO is not set/' \
-    -e 's/^CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT=y/# CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT is not set/' \
-    -e 's/^CONFIG_DEBUG_INFO_BTF=y/# CONFIG_DEBUG_INFO_BTF is not set/' \
-    -e 's/^CONFIG_DEBUG_INFO_BTF_MODULES=y/# CONFIG_DEBUG_INFO_BTF_MODULES is not set/' \
-    .config
-# amd/sof/* and amd/sof-tplg/* firmware blobs
-
-RUN make olddefconfig && make prepare
-
-# compile the kernel
-RUN make -j32
-RUN make modules_install
-RUN depmod -a ${KVER_RELEASE}
-RUN make install
-
-# Clean up the locales
 RUN printf 'en_US.UTF-8 UTF-8\n' > /etc/locale.gen \
  && locale-gen \
- && env-update \
- && . /etc/profile
+ && env-update
 ENV LANG=en_US.UTF-8 \
     LC_ALL=en_US.UTF-8
 
-RUN env-update && source /etc/profile
-RUN emerge -1 sys-apps/portage
+RUN --mount=type=cache,target=/var/cache/distfiles,sharing=locked \
+    emerge -1 sys-apps/portage sys-kernel/installkernel
 
-# World-Update in einem Schritt.
+RUN --mount=type=cache,target=/var/cache/distfiles,sharing=locked \
+    emerge =sys-kernel/gentoo-sources-${KVER_PURE} \
+ && eselect kernel list \
+ && eselect kernel set linux-${KVER_SOURCE}
+
+WORKDIR /usr/src/linux
+COPY config/config6.18.48 .config
+RUN ./scripts/config \
+      --set-str LOCALVERSION "-dist" \
+      --disable DEBUG_INFO \
+      --disable DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT \
+      --disable DEBUG_INFO_BTF \
+      --disable DEBUG_INFO_BTF_MODULES \
+ && make olddefconfig \
+ && make prepare \
+ && make -j32 \
+ && make modules_install \
+ && depmod -a ${KVER_RELEASE} \
+ && make install \
+ && test -s /boot/vmlinuz-${KVER_RELEASE} \
+ && test -d /lib/modules/${KVER_RELEASE}
+
+# --- World-Update in 10 Blöcken (aktiviert) ---
 # Letzter erfolgreicher Chunk-Build: logs/setup01_run_20261106_182536.log (exit 0).
-# Die Chunk-Variante darunter bleibt auskommentiert erhalten und kann bei Bedarf
-# reaktiviert werden (dann die folgende RUN-Zeile auskommentieren).
-RUN emerge -uDN @world
-
-# --- Debug-Variante: World-Update in 10 Blöcken (derzeit deaktiviert) ---
 # Ein Fehler stoppt nur seinen Block, die davor liegenden Blöcke sind im
 # Layer-Cache. Atome werden über xargs -d '\n' übergeben, damit Sonderzeichen
 # wie das '<' in sys-kernel/gentoo-sources-6.19 nicht von der Shell
 # interpretiert werden.
-# RUN grep -vE '^\s*(#|$)' /var/lib/portage/world > /tmp/world_atoms.txt \
-#  && split -n l/10 -d /tmp/world_atoms.txt /tmp/world_stage_ \
-#  && wc -l /tmp/world_stage_*
-# RUN xargs -r -d '\n' -a /tmp/world_stage_00 emerge -uDN
-# RUN xargs -r -d '\n' -a /tmp/world_stage_01 emerge -uDN
-# RUN xargs -r -d '\n' -a /tmp/world_stage_02 emerge -uDN
-# RUN xargs -r -d '\n' -a /tmp/world_stage_03 emerge -uDN
-# RUN xargs -r -d '\n' -a /tmp/world_stage_04 emerge -uDN
-# RUN xargs -r -d '\n' -a /tmp/world_stage_05 emerge -uDN
-# RUN xargs -r -d '\n' -a /tmp/world_stage_06 emerge -uDN
-# RUN xargs -r -d '\n' -a /tmp/world_stage_07 emerge -uDN
-# RUN xargs -r -d '\n' -a /tmp/world_stage_08 emerge -uDN
-# RUN xargs -r -d '\n' -a /tmp/world_stage_09 emerge -uDN
+# (Fuer ein Ein-Schritt-Update diesen Chunk-Block auskommentieren und nur die
+# abschliessende `emerge -uDN @world`-Zeile aktiv lassen.)
+RUN awk '!/^[[:space:]]*(#|$)/ {gsub(/^[[:space:]]+|[[:space:]]+$/, ""); print}' /var/lib/portage/world > /tmp/world_atoms.txt \
+ && split -n l/10 -d /tmp/world_atoms.txt /tmp/world_stage_ \
+ && wc -l /tmp/world_stage_*
 
-# Abschluss-Check: alles bereits installiert, sollte nur noch wenig tun
-# RUN mkdir -p /etc/portage/package.accept_keywords \
-#  && touch /etc/portage/package.accept_keywords/package.accept_keywords \
-#  && grep -q '^>=net-misc/freerdp-3.17.2-r1 ~amd64$' /etc/portage/package.accept_keywords/package.accept_keywords \
-#     || printf '>=net-misc/freerdp-3.17.2-r1 ~amd64\n' >> /etc/portage/package.accept_keywords/package.accept_keywords
-RUN gcc-config -l
+RUN --mount=type=cache,target=/var/cache/distfiles,sharing=locked xargs -r -d '\n' -a /tmp/world_stage_00 emerge -uDN
+RUN --mount=type=cache,target=/var/cache/distfiles,sharing=locked xargs -r -d '\n' -a /tmp/world_stage_01 emerge -uDN
+RUN --mount=type=cache,target=/var/cache/distfiles,sharing=locked xargs -r -d '\n' -a /tmp/world_stage_02 emerge -uDN
+RUN --mount=type=cache,target=/var/cache/distfiles,sharing=locked xargs -r -d '\n' -a /tmp/world_stage_03 emerge -uDN
+RUN --mount=type=cache,target=/var/cache/distfiles,sharing=locked xargs -r -d '\n' -a /tmp/world_stage_04 emerge -uDN
+RUN --mount=type=cache,target=/var/cache/distfiles,sharing=locked xargs -r -d '\n' -a /tmp/world_stage_05 emerge -uDN
+RUN --mount=type=cache,target=/var/cache/distfiles,sharing=locked xargs -r -d '\n' -a /tmp/world_stage_06 emerge -uDN
+RUN --mount=type=cache,target=/var/cache/distfiles,sharing=locked xargs -r -d '\n' -a /tmp/world_stage_07 emerge -uDN
+RUN --mount=type=cache,target=/var/cache/distfiles,sharing=locked xargs -r -d '\n' -a /tmp/world_stage_08 emerge -uDN
+RUN --mount=type=cache,target=/var/cache/distfiles,sharing=locked xargs -r -d '\n' -a /tmp/world_stage_09 emerge -uDN
 
-# Temporarily install package analysis tools
-RUN emerge --ask=n app-portage/genlop app-portage/gentoolkit \
- && qlist -Iv sys-devel/gcc \
- && echo "Generating package statistics..." \
- && for pkg in $(qlist -I); do \
-      SIZE=$(qsize -m "$pkg" | awk '{print $5$6}'); \
-      TIME=$(genlop -t "$pkg" | grep "merge time" | tail -n 1 | sed 's/.*merge time: //'); \
-      echo "$pkg | Size: ${SIZE:-N/A} | Build Time: ${TIME:-N/A}"; \
-    done > /packages.txt \
- && emerge -C app-portage/genlop app-portage/gentoolkit
+# Konvergenz-@world + Binhost-Index aktualisieren
+RUN --mount=type=cache,target=/var/cache/distfiles,sharing=locked \
+    emerge -uDN @world \
+ && rm -f /tmp/world_atoms.txt /tmp/world_stage_* \
+ && emaint --fix binhost \
+ && test -s /var/cache/binpkgs/Packages \
+ && gcc-config -l
 
-# Sudo policy
-RUN mkdir -p /etc/sudoers.d
-RUN echo "%wheel ALL=(ALL:ALL) NOPASSWD: ALL" > /etc/sudoers.d/wheel
+# Snapshot installed packages lacking a proper build-time binpkg as local
+# binpkgs. The builder installs most dependencies as upstream binaries, which
+# are NOT stored in /var/cache/binpkgs, so the target stage would fail with
+# "no binary packages to satisfy ...". Virtuals provide no files and are skipped.
+# Only missing ones are snapshotted: where a build-time binpkg already exists,
+# it MUST win — a post-merge quickpkg snapshot can be uninstallable (e.g.
+# nvidia-drivers' preinst unconditionally removes supported-gpus.json, which no
+# longer exists post-merge; same class as xkeyboard-config below).
+# The index is regenerated from scratch (rm first): incremental
+# `emaint --fix binhost` silently skipped newly added binpkgs (acct-user/
+# messagebus, ntp, polkitd were missing from the index although present).
+RUN missing=$(for atom in $(qlist -I | grep -v '^virtual/'); do \
+        [ -n "$(ls -A /var/cache/binpkgs/${atom} 2>/dev/null)" ] || printf '%s\n' "${atom}"; \
+      done) \
+ && if [ -n "${missing}" ]; then \
+      printf '%s\n' "${missing}" | xargs quickpkg --include-config=y; \
+    fi \
+ && rm -f /var/cache/binpkgs/Packages /var/cache/binpkgs/Packages.gz \
+ && emaint --fix binhost \
+ && test -s /var/cache/binpkgs/Packages
 
+# xkeyboard-config's preinst unconditionally renames xkb.workaround->xkb, so a
+# post-merge quickpkg snapshot (xkb/ already in final layout) cannot be
+# reinstalled (preinst dies with "cannot stat xkb.workaround"). Rebuild it from
+# source into an empty PKGDIR (so no binary short-circuits the build) to get a
+# proper build-time binpkg. The =atom forces a reinstall of the exact version.
+RUN rm -f /var/cache/binpkgs/x11-misc/xkeyboard-config/*.gpkg.tar \
+ && mkdir -p /tmp/empty-pkgdir \
+ && PKGDIR=/tmp/empty-pkgdir FEATURES="-getbinpkg" emerge -1 --buildpkg =$(qlist -Iv x11-misc/xkeyboard-config) \
+ && cp /tmp/empty-pkgdir/x11-misc/xkeyboard-config/*.gpkg.tar /var/cache/binpkgs/x11-misc/xkeyboard-config/ \
+ && rm -rf /tmp/empty-pkgdir \
+ && rm -f /var/cache/binpkgs/Packages /var/cache/binpkgs/Packages.gz \
+ && emaint --fix binhost \
+ && test -s /var/cache/binpkgs/Packages
 
-# # Ryzen SMU kernel module
-# WORKDIR /usr/src
-# RUN git clone https://github.com/amkillam/ryzen_smu
-# WORKDIR /usr/src/ryzen_smu
-# # Path should be like /lib/modules/6.13.5-gentoo/
-# # Replace $(shell uname -r) with ${KVER}-x86_64, otherwise the TARGET folder is not defined correctly
-# RUN sed -i "s/\$(shell uname -r)/${KVER}/g" Makefile
-# RUN make -j7
-# RUN cp ryzen_smu.ko /lib/modules/${KVER}/kernel/
-# RUN depmod -a ${KVER}
-# RUN rm *.o
-
-# slstatus
+# Build slstatus against config.h (verified for BAT0 from slstatus_config.h)
 WORKDIR /usr/src
 RUN git clone https://git.suckless.org/slstatus
 WORKDIR /usr/src/slstatus
-COPY config/slstatus_config.h .
-RUN make -j32
-RUN make install
-RUN make clean
+COPY config/slstatus_config.h config.h
+RUN make -j32 \
+ && make install \
+ && make clean \
+ && strings /usr/local/bin/slstatus | grep -q 'BAT0'
 
-RUN groupadd -f input \
+# Extract build times from builder's emerge.log without polluting target with genlop/perl
+RUN --mount=type=cache,target=/var/cache/distfiles,sharing=locked \
+    set -e \
+ && emerge --ask=n --oneshot app-portage/genlop \
+ && : > /tmp/build_times.tsv \
+ && for pkg in $(qlist -I); do \
+      time_human=$(genlop -t "$pkg" 2>/dev/null | sed -nE 's/.*merge time: (.*)/\1/p' | tail -n 1 | sed -E 's/\x1B\[[0-9;]*[[:alpha:]]//g'); \
+      if [ -n "$time_human" ]; then \
+        build_seconds=$(TIME_HUMAN="$time_human" awk 'BEGIN{t=ENVIRON["TIME_HUMAN"]; gsub(/,/, "", t); n=split(t, a, / +/); s=0; for (i=1; i<=n; i++) { if (a[i] ~ /^[0-9]+$/) { v=a[i]+0; u=a[i+1]; if (u ~ /^day/) s+=v*86400; else if (u ~ /^hour/) s+=v*3600; else if (u ~ /^minute/) s+=v*60; else if (u ~ /^second/) s+=v; } } print s }'); \
+      else \
+        time_human='-'; \
+        build_seconds=0; \
+      fi; \
+      printf '%s\t%s\t%s\n' "$pkg" "${build_seconds:-0}" "${time_human:-N/A}" >> /tmp/build_times.tsv; \
+    done
+
+# ==============================================================================
+# Stage 2: Clean Target Rootfs (installed strictly from binpkgs, no BDEPENDs)
+# ==============================================================================
+FROM stage3_base AS target
+
+COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
+
+ENV KVER_PURE=6.18.60
+ENV KVER_SOURCE=${KVER_PURE}-gentoo
+ENV KVER_RELEASE=${KVER_SOURCE}-dist
+
+RUN eselect profile set default/linux/amd64/23.0/no-multilib
+COPY config/etc/portage/package.accept_keywords /etc/portage/package.accept_keywords/package.accept_keywords
+RUN mkdir -p /etc/portage/package.mask
+COPY config/etc/portage/package.mask /etc/portage/package.mask/package.mask
+COPY config/etc/portage/make.conf /etc/portage/make.conf
+COPY config/etc/portage/package.use /etc/portage/package.use
+COPY config/etc/portage/package.env /etc/portage/package.env
+COPY config/etc/portage/env /etc/portage/env
+COPY config/var/lib/portage/world /var/lib/portage/world
+COPY config/dwm-6.8 /etc/portage/savedconfig/x11-wm/dwm
+
+RUN printf 'en_US.UTF-8 UTF-8\n' > /etc/locale.gen \
+ && locale-gen \
+ && env-update
+ENV LANG=en_US.UTF-8 \
+    LC_ALL=en_US.UTF-8
+
+# Copy prebuilt kernel + modules before emerging @world so nvidia-drivers postinst sees the kernel tree.
+# sys-kernel/installkernel installs only versioned names, but the smoke test and
+# the export stage expect the generic /boot/vmlinuz, so copy it here in the
+# target (builder stays untouched, keeping its layer cache valid).
+COPY --from=builder /boot /boot
+COPY --from=builder /lib/modules/${KVER_RELEASE} /lib/modules/${KVER_RELEASE}
+COPY --from=builder /usr/local/bin/slstatus /usr/local/bin/slstatus
+RUN cp /boot/vmlinuz-${KVER_RELEASE} /boot/vmlinuz && test -s /boot/vmlinuz
+
+# Install strictly from local builder binpkgs without build-only dependencies (e.g. rust, go, genlop).
+# NOTE: --usepkg (not --usepkgonly): virtuals from @system (virtual/ssh, ...)
+# cannot be satisfied by any binary, so --usepkgonly fails. With --usepkg the
+# virtuals resolve via ebuilds (they install no files) while every real package
+# still comes from the local binpkgs (verified: pretend shows only virtual/*
+# as ebuilds, zero source builds).
+RUN --mount=type=bind,from=builder,source=/var/cache/binpkgs,target=/var/cache/binpkgs \
+    FEATURES="-binpkg-request-signature -getbinpkg" \
+    emerge -1 --usepkgonly sys-apps/portage \
+ && FEATURES="-binpkg-request-signature -getbinpkg" \
+    emerge -uDN --usepkg --with-bdeps=n @world \
+ && depmod -a ${KVER_RELEASE} \
+ && rm -rf /var/tmp/portage/*
+
+# Sudo policy & user kiel
+RUN mkdir -p /etc/sudoers.d \
+ && echo "%wheel ALL=(ALL:ALL) NOPASSWD: ALL" > /etc/sudoers.d/wheel \
+ && groupadd -f input \
  && useradd -m -G users,wheel,audio,video,input -s /bin/bash kiel \
  && if getent group tty >/dev/null; then usermod -aG tty kiel; fi \
  && for grp in libvirt kvm qemu plugdev pcap docker dialout; do \
       if getent group "${grp}" >/dev/null; then usermod -aG "${grp}" kiel; fi; \
-    done && passwd -d kiel
-    
+    done \
+ && passwd -d kiel
+
 COPY config/xinitrc /home/kiel/.xinitrc
 RUN mkdir -p /etc/X11/xorg.conf.d
 COPY config/40-touchpad.conf /etc/X11/xorg.conf.d/40-touchpad.conf
@@ -150,7 +227,8 @@ COPY config/activate /home/kiel/activate
 COPY config/start2 /home/kiel/start2
 COPY config/start-pipewire.sh /home/kiel/start-pipewire.sh
 RUN chmod +x /home/kiel/activate /home/kiel/start2 /home/kiel/start-pipewire.sh \
- && chown kiel:kiel /home/kiel/activate /home/kiel/start2 /home/kiel/start-pipewire.sh
+ && chown kiel:kiel /home/kiel/.xinitrc /home/kiel/activate /home/kiel/start2 /home/kiel/start-pipewire.sh
+
 COPY config/user-runtime.initd /etc/init.d/user-runtime
 COPY config/zz-openrc-user-session.sh /etc/profile.d/zz-openrc-user-session.sh
 COPY config/user-dbus.initd /etc/user/init.d/dbus
@@ -158,22 +236,14 @@ COPY config/user-pipewire.initd /etc/user/init.d/pipewire
 COPY config/user-pipewire-pulse.initd /etc/user/init.d/pipewire-pulse
 COPY config/user-wireplumber.initd /etc/user/init.d/wireplumber
 
-#RUN emerge --depclean
-
-# Network and services
 COPY config/resolv.conf /etc/
 COPY config/reverse-ssh-eu.initd /etc/init.d/reverse-ssh-eu
 COPY config/reverse-ssh-us.initd /etc/init.d/reverse-ssh-us
-
-RUN chmod +x /etc/init.d/reverse-ssh-* \
- && rc-update add sshd default \
- && rc-update add reverse-ssh-eu default \
- && rc-update add reverse-ssh-us default
-# Switch to user 'kiel'
-USER kiel
-ENV HOME=/home/kiel
+RUN chmod +x /etc/init.d/reverse-ssh-*
 
 # Install Emacs packages from MELPA in batch mode
+USER kiel
+ENV HOME=/home/kiel
 RUN emacs --batch \
     --eval "(require 'package)" \
     --eval "(add-to-list 'package-archives '(\"melpa\" . \"https://melpa.org/packages/\") t)" \
@@ -181,9 +251,8 @@ RUN emacs --batch \
     --eval "(package-refresh-contents)" \
     --eval "(dolist (pkg '(magit paredit slime)) (package-install pkg))"
 
-# Switch back to root user for the remaining steps
 USER root
-
+ENV HOME=/root
 
 RUN mkdir -p /usr/local/share/openrc-host-config
 COPY config/activate /usr/local/share/openrc-host-config/activate
@@ -191,16 +260,10 @@ COPY config/start2 /usr/local/share/openrc-host-config/start2
 COPY config/reverse-ssh-eu.initd /usr/local/share/openrc-host-config/reverse-ssh-eu.initd
 COPY config/reverse-ssh-us.initd /usr/local/share/openrc-host-config/reverse-ssh-us.initd
 
-
-# For chinese font in chrome
 RUN fc-cache -fv
 
-RUN printf '%s\n' \
-      'modules="amdgpu mt7921e"' \
-      > /etc/conf.d/modules \
- && printf '%s\n' \
-      'keymap="colemak/en-latin9"' \
-      > /etc/conf.d/keymaps \
+# OpenRC configuration (Single Owner for dbus/pipewire/wireplumber; host-specific units enabled per variant)
+RUN printf '%s\n' 'keymap="colemak/en-latin9"' > /etc/conf.d/keymaps \
  && sed -i 's/^rc_sys=.*/rc_sys=""/' /etc/rc.conf \
  && if grep -q '^rc_logger=' /etc/rc.conf 2>/dev/null; then \
       sed -i 's/^rc_logger=.*/rc_logger="YES"/' /etc/rc.conf; \
@@ -230,22 +293,19 @@ RUN printf '%s\n' \
     fi \
  && chmod 0755 /etc/init.d/user-runtime /etc/profile.d/zz-openrc-user-session.sh \
       /etc/user/init.d/dbus /etc/user/init.d/pipewire /etc/user/init.d/pipewire-pulse /etc/user/init.d/wireplumber \
- && install -d -m 0755 /run/user \
- && install -d -o kiel -g kiel -m 0700 /run/user/1000 \
  && test -e /etc/init.d/user \
  && ln -sf /etc/init.d/user /etc/init.d/user.kiel \
  && install -d -o kiel -g kiel -m 0755 /home/kiel/.config/rc/runlevels/default \
  && ln -sf /etc/user/init.d/dbus /home/kiel/.config/rc/runlevels/default/dbus \
-#  && ln -sf /etc/user/init.d/pipewire /home/kiel/.config/rc/runlevels/default/pipewire \
-#  && ln -sf /etc/user/init.d/pipewire-pulse /home/kiel/.config/rc/runlevels/default/pipewire-pulse \
-#  && ln -sf /etc/user/init.d/wireplumber /home/kiel/.config/rc/runlevels/default/wireplumber \
+ && ln -sf /etc/user/init.d/pipewire /home/kiel/.config/rc/runlevels/default/pipewire \
+ && ln -sf /etc/user/init.d/pipewire-pulse /home/kiel/.config/rc/runlevels/default/pipewire-pulse \
+ && ln -sf /etc/user/init.d/wireplumber /home/kiel/.config/rc/runlevels/default/wireplumber \
  && rc-update add udev sysinit \
  && rc-update add udev-trigger sysinit \
  && rc-update add udev-settle sysinit \
  && rc-update add cgroups sysinit \
  && rc-update add modules boot \
  && rc-update add keymaps boot \
- && rc-update add cgroups boot \
  && rc-update add elogind boot \
  && rc-update add user-runtime default \
  && rc-update add user.kiel default \
@@ -256,12 +316,71 @@ RUN printf '%s\n' \
  && rc-update add local default \
  && chown -R kiel:kiel /home/kiel/.config
 
-RUN rm -rf /var/tmp/portage/* # reduce docker layer size
-
-RUN emerge -C dev-lang/rust-bin virtual/rust dev-lang/go dev-lang/go-bootstrap dev-util/cargo-c || true
-
+# Dracut Module documentation https://dracut-ng.github.io/dracut-ng/modules/core.html
 WORKDIR /
-RUN emerge --ask=n sys-fs/e2fsprogs sys-fs/erofs-utils || true
+RUN test -d /usr/lib/dracut/modules.d/70overlayfs \
+ && test -f /usr/lib/dracut/modules.d/70overlayfs/module-setup.sh
+COPY config/mount-overlayfs.sh /usr/lib/dracut/modules.d/70overlayfs/mount-overlayfs.sh
+RUN chmod +x /usr/lib/dracut/modules.d/70overlayfs/*.sh \
+ && dracut \
+      -m "kernel-modules base dmsquash-live dm udev-rules crypt lvm overlayfs" \
+      --filesystems "squashfs erofs vfat ext4 overlay btrfs" \
+      --add-drivers "libnvdimm nd_pmem nd_btt nd_blk dax device_dax dax_pmem dax_pmem_core nd_e820" \
+      --kver=${KVER_RELEASE} \
+      --install "stat blockdev" \
+      --force \
+      /boot/initramfs_squash_sda1-x86_64.img
+
+# Build external AMD microcode cpio archive from linux-firmware
+RUN set -e \
+ && mkdir -p /tmp/ucode/kernel/x86/microcode \
+ && cat /usr/lib/firmware/amd-ucode/microcode_amd*.bin > /tmp/ucode/kernel/x86/microcode/AuthenticAMD.bin \
+ && (cd /tmp/ucode && find kernel | cpio -o -H newc > /boot/amd-uc.img) \
+ && rm -rf /tmp/ucode \
+ && test -s /boot/amd-uc.img
+
+# Generate final package reports from target sizes + builder merge times
+RUN --mount=type=bind,from=builder,source=/tmp/build_times.tsv,target=/tmp/build_times.tsv \
+    set -e \
+ && printf 'package\tsize_mib\tbuild_seconds\tbuild_time_human\n' > /packages.tsv \
+ && time_threshold_mib=50 \
+ && for pkg in $(qlist -I); do \
+      size_line=$(qsize -m "$pkg" | head -n 1 || true); \
+      size_mib=$(printf '%s\n' "$size_line" | sed -nE 's/.*,[[:space:]]*([0-9.]+)[[:space:]]+MiB$/\1/p'); \
+      if [ -z "$size_mib" ]; then \
+        size_kib=$(printf '%s\n' "$size_line" | sed -nE 's/.*,[[:space:]]*([0-9.]+)[[:space:]]+KiB$/\1/p'); \
+        if [ -n "$size_kib" ]; then \
+          size_mib=$(awk "BEGIN { printf \"%.3f\", ${size_kib}/1024 }"); \
+        else \
+          size_mib=0; \
+        fi; \
+      fi; \
+      is_large=$(awk "BEGIN { print (${size_mib} >= ${time_threshold_mib}) ? 1 : 0 }"); \
+      if [ "$is_large" -eq 1 ]; then \
+        bt_line=$(awk -F '\t' -v p="$pkg" '$1 == p {print $2 "\t" $3; exit}' /tmp/build_times.tsv); \
+        if [ -n "$bt_line" ]; then \
+          build_seconds="${bt_line%%	*}"; \
+          time_human="${bt_line#*	}"; \
+        else \
+          build_seconds=0; \
+          time_human='-'; \
+        fi; \
+      else \
+        time_human='-'; \
+        build_seconds=0; \
+      fi; \
+      printf '%s\t%s\t%s\t%s\n' "$pkg" "$size_mib" "${build_seconds:-0}" "${time_human:-N/A}" >> /packages.tsv; \
+    done \
+ && { \
+      printf '%-40s %10s %14s  %s\n' "Package" "Size MiB" "Build Seconds" "Build Time"; \
+      tail -n +2 /packages.tsv | sort -t "$(printf '\t')" -k2,2nr -k3,3nr | awk -F '\t' '{printf "%-40s %10s %14s  %s\n", $1, $2, $3, $4}'; \
+    } > /packages.txt
+
+# Keep BUILD_* ARGs as late as possible so export cache hits cleanly
+ARG BUILD_GIT_COMMIT=unknown
+ARG BUILD_REPOSITORY=unknown
+ARG BUILD_DATE=unknown
+
 RUN printf '%s\n' \
   'OpenRC Gentoo image build' \
   '==========================' \
@@ -279,149 +398,49 @@ RUN printf '%s\n' \
   'wpctl status, or pactl list short sinks there and select the host-specific' \
   'device/profile.' \
   > /IMAGE-BUILD-INFO.txt
-# RUN mksquashfs \
-# / \
-# /gentoo.squashfs \
-# -comp zstd \
-# -xattrs \
-# -noappend \
-# -not-reproducible \
-# -Xcompression-level 19 \
-# -progress \
-# -one-file-system-x \
-# -p "/dev d 755 0 0" \
-# -p "/proc d 555 0 0" \
-# -p "/sys d 555 0 0" \
-# -b 256K -noI -noX \
-# -mem 10G \
-# -wildcards \
-# -e \
-# bin \
-# sbin \
-# lib \
-# lib64 \
-# usr/bin \
-# usr/sbin \
-# usr/lib \
-# usr/lib64 \
-# opt \
-# usr/src \
-# var/cache/binpkgs \
-# var/cache/distfiles \
-# "gentoo*squashfs" \
-# "gentoo*ext4" \
-# "usr/lib64/libQt*.a" \
-# usr/share/genkernel/distfiles \
-# usr/src/linux \
-# usr/share/sgml \
-# var/cache/eix/previous.eix \
-# boot \
-# persistent \
-# home/kiel/.cache/mozilla \
-# home/kiel/.cache/google-chrome \
-# home/kiel/.cache/mesa_shader_cache \
-# home/kiel/.cache/fontconfig \
-# home/kiel/Downloads \
-# home/kiel/.config \
-# home/kiel/.mozilla \
-# home/kiel/stage \
-# var/log/journal \
-# var/cache/genkernel \
-# var/tmp/portage \
-# mnt/ \
-# mnt2/ \
-# mnt4/ \
-# mnt5/ \
-# var/tmp \
-# initramfs-with-squashfs.img \
-# lost+found \
-# var/log \
-# usr/share/gtk-doc \
-# usr/share/doc \
-# usr/share/locale
 
-# Ext4 image creation with e2fsprogs (sparse initial file)
-# Contains ONLY binaries and libraries for DAX Execute-In-Place
-# RUN set -e \
-#  && echo "Building gentoo.ext4 with DAX capabilities..." \
-#  && rm -rf /tmp/ext4_root \
-#  && mkdir -p /tmp/ext4_root \
-#  && cd / \
-#  && find bin sbin usr/bin usr/sbin \
-#       \( -type l -o \( -type f -perm /111 \) \) -print0 \
-#       | xargs -0 -r -I{} cp -a --parents "{}" /tmp/ext4_root/ \
-#  && find lib lib64 usr/lib usr/lib64 \
-#       \( -type l -o \( -type f \( -name '*.so' -o -name '*.so.*' -o -name 'ld-linux*.so*' -o -name 'ld-musl-*.so*' \) \) \) -print0 \
-#       | xargs -0 -r -I{} cp -a --parents "{}" /tmp/ext4_root/ \
-#  && truncate -s 24G /gentoo.ext4 \
-#  && mke2fs -t ext4 -b 4096 -O ^has_journal -d /tmp/ext4_root /gentoo.ext4 \
-#  && rm -rf /tmp/ext4_root
-
-# Dracut Module documentation https://dracut-ng.github.io/dracut-ng/modules/core.html
-
-COPY config/mount-overlayfs.sh /usr/lib/dracut/modules.d/70overlayfs
-RUN chmod +x /usr/lib/dracut/modules.d/70overlayfs/*.sh
-RUN dracut \
-      -m "kernel-modules base dmsquash-live dm udev-rules crypt lvm overlayfs" \
-  --filesystems "squashfs erofs vfat ext4 overlay btrfs" \
-  --add-drivers "libnvdimm nd_pmem nd_btt nd_blk dax device_dax dax_pmem dax_pmem_core nd_e820" \
-      --kver=${KVER_RELEASE} \
-      --install "stat blockdev" \
-      --force \
-      /boot/initramfs_squash_sda1-x86_64.img
-
-# Ensure SPARK proof tooling can find the Gentoo-installed Why3 helper.
-#RUN ln -sf /usr/bin/gnatwhy3 /usr/libexec/spark/bin/gnatwhy3 \
-# && if [ -x /usr/bin/why3 ]; then ln -sf /usr/bin/why3 /usr/libexec/spark/bin/why3; fi
-
-# The top-level OCaml package is not needed for runtime proof use in the image:
-# gnatprove/why3/alt-ergo still work after removing it, while build-time OCaml
-# was required earlier to install the prover stack.
-#RUN emerge -C dev-lang/ocaml || true
-
-# Regenerate package reports late so they match the final image contents.
+# Reality & smoke tests on clean target rootfs before building variants
 RUN set -e \
- && emerge --ask=n --oneshot app-portage/genlop \
- && printf 'package\tsize_mib\tbuild_seconds\tbuild_time_human\n' > /packages.tsv \
- && time_threshold_mib=50 \
- && for pkg in $(qlist -I); do \
-      size_line=$(qsize -m "$pkg" | head -n 1 || true); \
-      size_mib=$(printf '%s\n' "$size_line" | sed -nE 's/.*,[[:space:]]*([0-9.]+)[[:space:]]+MiB$/\1/p'); \
-      if [ -z "$size_mib" ]; then \
-        size_kib=$(printf '%s\n' "$size_line" | sed -nE 's/.*,[[:space:]]*([0-9.]+)[[:space:]]+KiB$/\1/p'); \
-        if [ -n "$size_kib" ]; then \
-          size_mib=$(awk "BEGIN { printf \"%.3f\", ${size_kib}/1024 }"); \
-        else \
-          size_mib=0; \
-        fi; \
-      fi; \
-      is_large=$(awk "BEGIN { print (${size_mib} >= ${time_threshold_mib}) ? 1 : 0 }"); \
-      if [ "$is_large" -eq 1 ]; then \
-        time_human=$(genlop -t "$pkg" 2>/dev/null | sed -nE 's/.*merge time: (.*)/\1/p' | tail -n 1 | sed -E 's/\x1B\[[0-9;]*[[:alpha:]]//g'); \
-        build_seconds=$(TIME_HUMAN="$time_human" awk 'BEGIN{t=ENVIRON["TIME_HUMAN"]; gsub(/,/, "", t); n=split(t, a, / +/); s=0; for (i=1; i<=n; i++) { if (a[i] ~ /^[0-9]+$/) { v=a[i]+0; u=a[i+1]; if (u ~ /^day/) s+=v*86400; else if (u ~ /^hour/) s+=v*3600; else if (u ~ /^minute/) s+=v*60; else if (u ~ /^second/) s+=v; } } print s }'); \
-      else \
-        time_human='-'; \
-        build_seconds=0; \
-      fi; \
-      printf '%s\t%s\t%s\t%s\n' "$pkg" "$size_mib" "${build_seconds:-0}" "${time_human:-N/A}" >> /packages.tsv; \
+ && grep -q '^rc_sys=""' /etc/rc.conf \
+ && for s in udev udev-trigger udev-settle cgroups; do \
+      test -e "/etc/runlevels/sysinit/${s}"; \
     done \
- && { \
-      printf '%-40s %10s %14s  %s\n' "Package" "Size MiB" "Build Seconds" "Build Time"; \
-      tail -n +2 /packages.tsv | sort -t "$(printf '\t')" -k2,2nr -k3,3nr | awk -F '\t' '{printf "%-40s %10s %14s  %s\n", $1, $2, $3, $4}'; \
-    } > /packages.txt \
- && emerge -C app-portage/genlop || true
+ && for s in modules keymaps elogind; do \
+      test -e "/etc/runlevels/boot/${s}"; \
+    done \
+ && for s in user-runtime user.kiel dbus iwd sshd docker local; do \
+      test -e "/etc/runlevels/default/${s}"; \
+    done \
+ && for s in dbus pipewire pipewire-pulse wireplumber; do \
+      test -e "/home/kiel/.config/rc/runlevels/default/${s}"; \
+    done \
+ && for bin in dwm slstatus emacs xfreerdp nvme firefox zathura gcc g++ gdb cmake pkgconf sbcl git iwctl; do \
+      command -v "${bin}" >/dev/null || { echo "MISSING BIN: ${bin}"; exit 1; }; \
+    done \
+ && strings /usr/local/bin/slstatus | grep -q 'BAT0' \
+ && ! command -v rustc >/dev/null \
+ && ! command -v cargo >/dev/null \
+ && ! command -v go >/dev/null \
+ && ! qlist -I | grep -qE '^(dev-lang/rust|dev-lang/go|app-portage/gentoolkit)' \
+ && lsinitrd /boot/initramfs_squash_sda1-x86_64.img | grep -q 'mount-overlayfs.sh' \
+ && cpio -it < /boot/amd-uc.img | grep -q 'AuthenticAMD.bin' \
+ && test -s /boot/vmlinuz \
+ && test -s /packages.txt \
+ && test -s /packages.tsv
 
-# Create NVIDIA/full-runtime squashfs image.
-# Stage the exact firmware paths requested by the installed nvidia.ko so the
-# exported HP Z6 image contains the files at their runtime paths instead of as
-# leftover build scratch state under /tmp.
-RUN df -h
+# ==============================================================================
+# Variant 1: HP Z6 (NVIDIA + reverse SSH tunnels)
+# ==============================================================================
+FROM target AS variant-nv
+
+# Stage the exact firmware paths requested by the installed nvidia.ko
 RUN set -e \
  && echo "Preparing NVIDIA squashfs" \
+ && rc-update add reverse-ssh-eu default \
+ && rc-update add reverse-ssh-us default \
  && test -e /lib/modules/${KVER_RELEASE}/video/nvidia.ko \
- && rm -rf /tmp/fw_original /tmp/fw_nv_root \
- && mkdir -p /tmp/fw_original /tmp/fw_nv_root/usr/lib/firmware \
- && cp -a /usr/lib/firmware/. /tmp/fw_original/ \
+ && rm -rf /tmp/fw_nv_root /out \
+ && mkdir -p /tmp/fw_nv_root/usr/lib/firmware /out \
  && modinfo -F firmware /lib/modules/${KVER_RELEASE}/video/nvidia.ko \
       | sort -u \
       | while IFS= read -r rel; do \
@@ -434,7 +453,8 @@ RUN set -e \
         done \
  && rm -rf /usr/lib/firmware/* \
  && cp -a /tmp/fw_nv_root/usr/lib/firmware/. /usr/lib/firmware/ \
- && mksquashfs / /gentoo.squashfs_nv \
+ && rm -rf /tmp/fw_nv_root \
+ && mksquashfs / /out/gentoo.squashfs_nv \
    -comp zstd \
    -Xcompression-level 19 \
    -b 256K \
@@ -450,51 +470,39 @@ RUN set -e \
    -noI -noX \
    -wildcards \
    -e \
+     out \
      usr/src \
-    var/cache/binhost \
+     var/cache/binhost \
      var/cache/binpkgs \
      var/cache/distfiles \
      "gentoo*squashfs*" \
      "gentoo*ext4" \
      "usr/lib64/libQt*.a" \
      usr/share/genkernel/distfiles \
-    usr/share/doc \
+     usr/share/doc \
      usr/src/linux \
      usr/share/sgml \
      var/cache/eix/previous.eix \
      boot \
      persistent \
      home/*/.cache \
-     tmp/fw_original \
-     tmp/fw_nv_root \
      var/log/journal \
-    var/cache/genkernel \
-    var/tmp \
-    opt/Signal/LICENSES.chromium.html \
-    initramfs-with-squashfs.img \
-    lost+found \
- && rm -rf /usr/lib/firmware/* \
- && cp -a /tmp/fw_original/. /usr/lib/firmware/ \
- && rm -rf /tmp/fw_original /tmp/fw_nv_root
+     var/cache/genkernel \
+     var/tmp \
+     opt/Signal/LICENSES.chromium.html \
+     lost+found \
+ && test -s /out/gentoo.squashfs_nv
+
+# ==============================================================================
+# Variant 2: ThinkPad E14 (iwd owns wlan0, minimal AMD/MT7922 firmware, no NVIDIA)
+# ==============================================================================
+FROM target AS variant-e14
 
 # ThinkPad E14 only: iwd owns wlan0 (WLAN, DHCP, DNS via openresolv).
-# Must stay AFTER the gentoo.squashfs_nv step above, so the HP Z6 image
-# is not affected. Background: doc/hotspot_disconnect_report.md
+# Background: doc/hotspot_disconnect_report.md
 COPY config/e14-iwd-main.conf /tmp/e14/iwd-main.conf
 COPY config/e14-iwd.confd /tmp/e14/iwd.confd
 COPY config/e14-nm-no-connectivity.conf /tmp/e14/nm-no-connectivity.conf
-RUN set -e \
- && emerge --ask=n --noreplace net-dns/openresolv \
- && install -d -m 0755 /etc/iwd /etc/NetworkManager/conf.d \
- && install -m 0644 /tmp/e14/iwd-main.conf /etc/iwd/main.conf \
- && install -m 0644 /tmp/e14/iwd.confd /etc/conf.d/iwd \
- && install -m 0644 /tmp/e14/nm-no-connectivity.conf \
-      /etc/NetworkManager/conf.d/90-e14-no-connectivity.conf \
- && (rc-update del NetworkManager default 2>/dev/null || true) \
- && rm -rf /tmp/e14
-
-# Create ThinkPad E14 squashfs image (keep Firefox, trim NVIDIA userspace,
-# keep only firmware required on the ThinkPad E14, and preserve the SPARK prover stack)
 
 # Minimal firmware set for the ThinkPad E14 Gen 6 (21M30030MZ, Ryzen 7 7735HS),
 # extracted as the unique "Loading firmware:" lines in dmesg_e14 (also stable
@@ -528,16 +536,25 @@ RUN set -e \
 # - amdgpu/rembrandt*: VBIOS string says REMBRANDT but the driver loads yellow_carp
 # - mediatek/* beyond the 3 files above (other chipsets: MT7925/MT7996/...)
 # - amd/* beyond amd-ucode (SEV/TEE blobs for server silicon)
-
- RUN set -e \
-  && echo "Preparing ThinkPad E14 squashfs (remove NVIDIA)" \
-  # gather minimal firmware for E14: exact per-file copies, see list above
-  && mkdir -p /tmp/tmpfw/amdgpu /tmp/tmpfw/mediatek \
-  && cp -a /usr/lib/firmware/regulatory.db /usr/lib/firmware/regulatory.db.p7s /tmp/tmpfw/ \
-  && cp -a /usr/lib/firmware/mediatek/WIFI_RAM_CODE_MT7922_1.bin \
+RUN --mount=type=cache,target=/var/cache/distfiles,sharing=locked \
+    set -e \
+ && echo "Preparing ThinkPad E14 squashfs (iwd, minimal firmware, remove NVIDIA)" \
+ && printf 'modules="amdgpu mt7921e"\n' > /etc/conf.d/modules \
+ && emerge --ask=n --noreplace net-dns/openresolv \
+ && install -d -m 0755 /etc/iwd /etc/NetworkManager/conf.d \
+ && install -m 0644 /tmp/e14/iwd-main.conf /etc/iwd/main.conf \
+ && install -m 0644 /tmp/e14/iwd.confd /etc/conf.d/iwd \
+ && install -m 0644 /tmp/e14/nm-no-connectivity.conf \
+      /etc/NetworkManager/conf.d/90-e14-no-connectivity.conf \
+ && (rc-update del NetworkManager default 2>/dev/null || true) \
+ && rm -rf /tmp/e14 /var/tmp/portage/* \
+ \
+ && mkdir -p /tmp/tmpfw/amdgpu /tmp/tmpfw/mediatek /out \
+ && cp -a /usr/lib/firmware/regulatory.db /usr/lib/firmware/regulatory.db.p7s /tmp/tmpfw/ \
+ && cp -a /usr/lib/firmware/mediatek/WIFI_RAM_CODE_MT7922_1.bin \
       /usr/lib/firmware/mediatek/WIFI_MT7922_patch_mcu_1_1_hdr.bin \
       /usr/lib/firmware/mediatek/BT_RAM_CODE_MT7922_1_1_hdr.bin /tmp/tmpfw/mediatek/ \
-  && cp -a /usr/lib/firmware/amdgpu/yellow_carp_toc.bin \
+ && cp -a /usr/lib/firmware/amdgpu/yellow_carp_toc.bin \
       /usr/lib/firmware/amdgpu/yellow_carp_ta.bin \
       /usr/lib/firmware/amdgpu/yellow_carp_dmcub.bin \
       /usr/lib/firmware/amdgpu/yellow_carp_pfp.bin \
@@ -548,77 +565,80 @@ RUN set -e \
       /usr/lib/firmware/amdgpu/yellow_carp_mec2.bin \
       /usr/lib/firmware/amdgpu/yellow_carp_sdma.bin \
       /usr/lib/firmware/amdgpu/yellow_carp_vcn.bin /tmp/tmpfw/amdgpu/ \
-  && cp -a /usr/lib/firmware/amd-ucode \
+ && cp -a /usr/lib/firmware/amd-ucode \
       /usr/lib/firmware/rtl_nic \
       /usr/lib/firmware/rtl_bt /tmp/tmpfw/ \
-  && rm -rf /usr/lib/firmware/* \
-  && mv /tmp/tmpfw/* /usr/lib/firmware/ \
-  \
-  # Build ThinkPad E14 image: keep Firefox and the SPARK prover stack, strip NVIDIA userspace
-  && echo "Stripping NVIDIA/CUDA userspace for E14 squashfs" \
-  && rm -rf /opt/cuda /usr/lib64/lib{cuda,nvidia,nv}* /usr/lib64/libnv* 2>/dev/null || true \
-  && rm -rf /usr/bin/nvidia* \
-       /usr/lib/elogind/system-sleep/nvidia \
-       /usr/lib/systemd/system/nvidia-* \
-       /usr/lib/systemd/system-sleep/nvidia \
-       /usr/lib/dracut/dracut.conf.d/10-nvidia-drivers.conf \
-       /usr/share/applications/nvidia-settings.desktop \
-       /usr/share/pixmaps/nvidia-settings.png \
-       /usr/share/doc/nvidia-drivers-* \
-       /usr/share/nvidia \
-       /usr/lib64/nvidia \
-       /usr/lib64/gbm/nvidia-drm_gbm.so \
-       /usr/lib64/vdpau/libvdpau_nvidia.so* 2>/dev/null || true \
-  && rm -rf /nvidia${KVER_RELEASE} 2>/dev/null || true \
-  && mksquashfs / /gentoo.squashfs_e14 \
-    -comp zstd \
-    -Xcompression-level 19 \
-    -b 256K \
-    -mem 10G \
-    -xattrs \
-    -noappend \
-    -not-reproducible \
-    -progress \
-    -one-file-system-x \
-    -p "/dev d 755 0 0" \
-    -p "/proc d 555 0 0" \
-    -p "/sys d 555 0 0" \
-    -noI -noX \
-    -wildcards \
-    -e \
-      usr/src \
-      var/cache/binpkgs \
-      var/cache/distfiles \
-      var/cache/binhost \
-      "gentoo*squashfs*" \
-      "gentoo*ext4" \
-      "usr/lib64/libQt*.a" \
-      usr/share/genkernel/distfiles \
-      usr/share/doc \
-      usr/src/linux \
-      usr/share/sgml \
-      var/cache/eix/previous.eix \
-      boot \
-      persistent \
-      home/*/.cache \
-      var/log/journal \
-      var/cache/genkernel \
-      var/tmp \
-      opt/Signal/LICENSES.chromium.html \
-      initramfs-with-squashfs.img \
-      lost+found \
-    || true
+ && rm -rf /usr/lib/firmware/* \
+ && mv /tmp/tmpfw/* /usr/lib/firmware/ \
+ && rmdir /tmp/tmpfw \
+ \
+ && emerge -C x11-drivers/nvidia-drivers dev-util/nvidia-cuda-toolkit 2>/dev/null || true \
+ && rm -rf /opt/cuda /usr/lib64/lib{cuda,nvidia}* \
+      /usr/lib64/libnvcuvid* /usr/lib64/libnvoptix* \
+      /usr/bin/nvidia* \
+      /usr/lib/elogind/system-sleep/nvidia \
+      /usr/lib/systemd/system/nvidia-* \
+      /usr/lib/systemd/system-sleep/nvidia \
+      /usr/lib/dracut/dracut.conf.d/10-nvidia-drivers.conf \
+      /usr/share/applications/nvidia-settings.desktop \
+      /usr/share/pixmaps/nvidia-settings.png \
+      /usr/share/doc/nvidia-drivers-* \
+      /usr/share/nvidia \
+      /usr/lib64/nvidia \
+      /usr/lib64/gbm/nvidia-drm_gbm.so \
+      /usr/lib64/vdpau/libvdpau_nvidia.so* \
+      /nvidia${KVER_RELEASE} \
+ && ! ldd "$(command -v nvme)" | grep -q 'not found' \
+ && ! test -e /etc/runlevels/default/reverse-ssh-eu \
+ && test -e /etc/iwd/main.conf \
+ && mksquashfs / /out/gentoo.squashfs_e14 \
+   -comp zstd \
+   -Xcompression-level 19 \
+   -b 256K \
+   -mem 10G \
+   -xattrs \
+   -noappend \
+   -not-reproducible \
+   -progress \
+   -one-file-system-x \
+   -p "/dev d 755 0 0" \
+   -p "/proc d 555 0 0" \
+   -p "/sys d 555 0 0" \
+   -noI -noX \
+   -wildcards \
+   -e \
+     out \
+     usr/src \
+     var/cache/binpkgs \
+     var/cache/distfiles \
+     var/cache/binhost \
+     "gentoo*squashfs*" \
+     "gentoo*ext4" \
+     "usr/lib64/libQt*.a" \
+     usr/share/genkernel/distfiles \
+     usr/share/doc \
+     usr/src/linux \
+     usr/share/sgml \
+     var/cache/eix/previous.eix \
+     boot \
+     persistent \
+     home/*/.cache \
+     var/log/journal \
+     var/cache/genkernel \
+     var/tmp \
+     opt/Signal/LICENSES.chromium.html \
+     lost+found \
+ && test -s /out/gentoo.squashfs_e14
 
-# Create a companion ThinkPad E14 EROFS image for DAX/XIP-style access to
-# binaries and libraries. Keep it uncompressed and 4 KiB block-aligned so it
-# can be mounted with dax=always on DAX-capable storage.
-# RUN set -e \
-#  && echo "Building ThinkPad E14 EROFS image for binaries and libraries" \
-#  && rm -rf /tmp/erofs_e14_root \
-#  && mkdir -p /tmp/erofs_e14_root/usr /tmp/erofs_e14_root/opt \
-#  && rsync -a /bin /sbin /lib /lib64 /tmp/erofs_e14_root/ \
-#  && rsync -a /usr/bin /usr/sbin /usr/lib /usr/lib64 /tmp/erofs_e14_root/usr/ \
-#  && rsync -a /opt/ /tmp/erofs_e14_root/opt/ \
-#  && rm -f /gentoo.erofs_e14 \
-#  && mkfs.erofs -b 4096 /gentoo.erofs_e14 /tmp/erofs_e14_root \
-#  && rm -rf /tmp/erofs_e14_root
+# ==============================================================================
+# Stage 3: Export all release artifacts (`docker build --target export --output ...`)
+# ==============================================================================
+FROM scratch AS export
+COPY --from=variant-nv  /out/gentoo.squashfs_nv /
+COPY --from=variant-e14 /out/gentoo.squashfs_e14 /
+COPY --from=target      /boot/vmlinuz /
+COPY --from=target      /boot/initramfs_squash_sda1-x86_64.img /
+COPY --from=target      /boot/amd-uc.img /
+COPY --from=target      /packages.txt /
+COPY --from=target      /packages.tsv /
+COPY --from=target      /IMAGE-BUILD-INFO.txt /
