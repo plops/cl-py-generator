@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
-ARG PORTAGE_TAG=20261106
-ARG STAGE3_TAG=nomultilib
+ARG PORTAGE_TAG=20261115
+ARG STAGE3_TAG=nomultilib-20261109
 
 FROM gentoo/portage:${PORTAGE_TAG} AS portage
 FROM gentoo/stage3:${STAGE3_TAG} AS stage3_base
@@ -31,7 +31,7 @@ COPY config/dwm-6.8 /etc/portage/savedconfig/x11-wm/dwm
 # *request* here; the final make.conf in the image keeps it for later operation.
 RUN printf '\nFEATURES="${FEATURES} buildpkg -binpkg-request-signature"\n' >> /etc/portage/make.conf
 
-ENV KVER_PURE=6.18.60
+ENV KVER_PURE=6.18.63
 ENV KVER_SOURCE=${KVER_PURE}-gentoo
 ENV KVER_RELEASE=${KVER_SOURCE}-dist
 
@@ -97,40 +97,54 @@ RUN --mount=type=cache,target=/var/cache/distfiles,sharing=locked \
  && test -s /var/cache/binpkgs/Packages \
  && gcc-config -l
 
-# Snapshot installed packages lacking a proper build-time binpkg as local
-# binpkgs. The builder installs most dependencies as upstream binaries, which
-# are NOT stored in /var/cache/binpkgs, so the target stage would fail with
-# "no binary packages to satisfy ...". Virtuals provide no files and are skipped.
-# Only missing ones are snapshotted: where a build-time binpkg already exists,
-# it MUST win — a post-merge quickpkg snapshot can be uninstallable (e.g.
-# nvidia-drivers' preinst unconditionally removes supported-gpus.json, which no
-# longer exists post-merge; same class as xkeyboard-config below).
-# The index is regenerated from scratch (rm first): incremental
-# `emaint --fix binhost` silently skipped newly added binpkgs (acct-user/
-# messagebus, ntp, polkitd were missing from the index although present).
-RUN missing=$(for atom in $(qlist -I | grep -v '^virtual/'); do \
-        [ -n "$(ls -A /var/cache/binpkgs/${atom} 2>/dev/null)" ] || printf '%s\n' "${atom}"; \
-      done) \
- && if [ -n "${missing}" ]; then \
-      printf '%s\n' "${missing}" | xargs quickpkg --include-config=y; \
-    fi \
+# xkeyboard-config's preinst unconditionally renames xkb.workaround->xkb, so a
+# post-merge quickpkg snapshot (xkb/ already in final layout) cannot be
+# reinstalled (preinst dies with "cannot stat xkb.workaround"). Rebuild it
+# from source FIRST (directly into the default PKGDIR; without --usepkg no
+# binary short-circuits the build) to get a proper build-time binpkg, so the
+# export below picks it up as genuinely local. The =atom forces a reinstall
+# of the exact version.
+RUN rm -f /var/cache/binpkgs/x11-misc/xkeyboard-config/*.gpkg.tar \
+ && FEATURES="-getbinpkg" emerge -1 --usepkg=n --buildpkg =$(qlist -Iv x11-misc/xkeyboard-config) \
  && rm -f /var/cache/binpkgs/Packages /var/cache/binpkgs/Packages.gz \
  && emaint --fix binhost \
  && test -s /var/cache/binpkgs/Packages
 
-# xkeyboard-config's preinst unconditionally renames xkb.workaround->xkb, so a
-# post-merge quickpkg snapshot (xkb/ already in final layout) cannot be
-# reinstalled (preinst dies with "cannot stat xkb.workaround"). Rebuild it from
-# source into an empty PKGDIR (so no binary short-circuits the build) to get a
-# proper build-time binpkg. The =atom forces a reinstall of the exact version.
-RUN rm -f /var/cache/binpkgs/x11-misc/xkeyboard-config/*.gpkg.tar \
- && mkdir -p /tmp/empty-pkgdir \
- && PKGDIR=/tmp/empty-pkgdir FEATURES="-getbinpkg" emerge -1 --buildpkg =$(qlist -Iv x11-misc/xkeyboard-config) \
- && cp /tmp/empty-pkgdir/x11-misc/xkeyboard-config/*.gpkg.tar /var/cache/binpkgs/x11-misc/xkeyboard-config/ \
- && rm -rf /tmp/empty-pkgdir \
- && rm -f /var/cache/binpkgs/Packages /var/cache/binpkgs/Packages.gz \
- && emaint --fix binhost \
- && test -s /var/cache/binpkgs/Packages
+# Export genuinely local binpkgs + upstream manifest BEFORE quickpkg/genlop
+# touch /var/cache/binpkgs: /out_binpkgs holds only truly compiled @world/
+# BDEPEND binpkgs, /tmp/target-binpkgs (below) feeds the target stage.
+COPY config/extract_local_binpkgs.py /tmp/extract_local_binpkgs.py
+RUN python3 /tmp/extract_local_binpkgs.py \
+      --out-binpkgs /out_binpkgs/binpkgs \
+      --out-upstream-tsv /out_binpkgs/upstream_binpkgs.tsv \
+      --out-upstream-txt /out_binpkgs/upstream_binpkgs.txt \
+   && rm -f /out_binpkgs/binpkgs/Packages /out_binpkgs/binpkgs/Packages.gz \
+   && PKGDIR=/out_binpkgs/binpkgs emaint --fix binhost \
+   && test -s /out_binpkgs/binpkgs/Packages \
+   && test -s /out_binpkgs/upstream_binpkgs.tsv
+
+# Snapshot installed packages lacking a proper build-time binpkg as local
+# binpkgs for the TARGET stage only (/tmp/target-binpkgs stays out of the
+# export above). The builder installs most dependencies as upstream binaries,
+# which are NOT stored in /var/cache/binpkgs, so the target stage would fail
+# with "no binary packages to satisfy ...". Virtuals provide no files and are
+# skipped. Only missing ones are snapshotted: where a build-time binpkg
+# already exists, it MUST win — a post-merge quickpkg snapshot can be
+# uninstallable (e.g. nvidia-drivers' preinst unconditionally removes
+# supported-gpus.json, which no longer exists post-merge).
+# The index is regenerated from scratch (rm first): incremental
+# `emaint --fix binhost` silently skipped newly added binpkgs (acct-user/
+# messagebus, ntp, polkitd were missing from the index although present).
+RUN cp -al /var/cache/binpkgs /tmp/target-binpkgs \
+ && missing=$(for atom in $(qlist -I | grep -v '^virtual/'); do \
+        [ -n "$(ls -A /tmp/target-binpkgs/${atom} 2>/dev/null)" ] || printf '%s\n' "${atom}"; \
+      done) \
+ && if [ -n "${missing}" ]; then \
+      printf '%s\n' "${missing}" | PKGDIR=/tmp/target-binpkgs xargs quickpkg --include-config=y; \
+    fi \
+ && rm -f /tmp/target-binpkgs/Packages /tmp/target-binpkgs/Packages.gz \
+ && PKGDIR=/tmp/target-binpkgs emaint --fix binhost \
+ && test -s /tmp/target-binpkgs/Packages
 
 # Build slstatus against config.h (verified for BAT0 from slstatus_config.h)
 WORKDIR /usr/src
@@ -145,7 +159,7 @@ RUN make -j32 \
 # Extract build times from builder's emerge.log without polluting target with genlop/perl
 RUN --mount=type=cache,target=/var/cache/distfiles,sharing=locked \
     set -e \
- && emerge --ask=n --oneshot app-portage/genlop \
+ && FEATURES="-buildpkg" emerge --ask=n --oneshot app-portage/genlop \
  && : > /tmp/build_times.tsv \
  && for pkg in $(qlist -I); do \
       time_human=$(genlop -t "$pkg" 2>/dev/null | sed -nE 's/.*merge time: (.*)/\1/p' | tail -n 1 | sed -E 's/\x1B\[[0-9;]*[[:alpha:]]//g'); \
@@ -165,7 +179,7 @@ FROM stage3_base AS target
 
 COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
 
-ENV KVER_PURE=6.18.60
+ENV KVER_PURE=6.18.63
 ENV KVER_SOURCE=${KVER_PURE}-gentoo
 ENV KVER_RELEASE=${KVER_SOURCE}-dist
 
@@ -201,13 +215,44 @@ RUN cp /boot/vmlinuz-${KVER_RELEASE} /boot/vmlinuz && test -s /boot/vmlinuz
 # virtuals resolve via ebuilds (they install no files) while every real package
 # still comes from the local binpkgs (verified: pretend shows only virtual/*
 # as ebuilds, zero source builds).
-RUN --mount=type=bind,from=builder,source=/var/cache/binpkgs,target=/var/cache/binpkgs \
+RUN --mount=type=bind,from=builder,source=/tmp/target-binpkgs,target=/var/cache/binpkgs \
     FEATURES="-binpkg-request-signature -getbinpkg" \
     emerge -1 --usepkgonly sys-apps/portage \
  && FEATURES="-binpkg-request-signature -getbinpkg" \
     emerge -uDN --usepkg --with-bdeps=n @world \
  && depmod -a ${KVER_RELEASE} \
  && rm -rf /var/tmp/portage/*
+
+# Offline/Hybrid binpkg helper (host provides BINPKG_DIR at runtime, no automount)
+COPY config/emerge-binpkg /usr/local/sbin/emerge-binpkg
+RUN chmod 0755 /usr/local/sbin/emerge-binpkg
+
+# Upstream binhost signing keys for the hybrid-online mode of emerge-binpkg.
+# Same keyring the builder verified upstream binpkgs against; permissions
+# must stay world-readable (portage verifies as unprivileged user), so strip
+# sockets/locks and enforce modes explicitly (builder may leave 0600/0700).
+COPY --from=builder /etc/portage/gnupg /etc/portage/gnupg
+RUN rm -f /etc/portage/gnupg/S.* /etc/portage/gnupg/.#* \
+ && find /etc/portage/gnupg -type d -exec chmod 0755 {} + \
+ && find /etc/portage/gnupg -type f -exec chmod 0644 {} +
+
+# Firefox comfort symlink (firefox-bin normally provides /usr/bin/firefox itself)
+RUN if [ ! -e /usr/bin/firefox ] && command -v firefox-bin >/dev/null 2>&1; then \
+      ln -sf "$(command -v firefox-bin)" /usr/local/bin/firefox; \
+    fi
+
+# Boot-time guard for a stale /etc/hosts in a persistent overlay upperdir:
+# ensures 127.0.0.1/::1 map the live hostname (runs via OpenRC local service).
+RUN install -d -m 0755 /etc/local.d \
+ && printf '%s\n' \
+      '#!/bin/sh' \
+      'h="$(hostname 2>/dev/null || true)"' \
+      '[ -n "${h}" ] && [ "${h}" != "(none)" ] && [ "${h}" != "localhost" ] || exit 0' \
+      'if ! grep -Eq "^127\.0\.0\.1[[:space:]].* ${h}( |$)" /etc/hosts 2>/dev/null; then' \
+      '  printf "127.0.0.1\t%s localhost\n::1\t\t%s localhost\n" "${h}" "${h}" > /etc/hosts' \
+      'fi' \
+      > /etc/local.d/10-hosts.start \
+ && chmod 0755 /etc/local.d/10-hosts.start
 
 # Sudo policy & user kiel
 RUN mkdir -p /etc/sudoers.d \
@@ -306,6 +351,7 @@ RUN printf '%s\n' 'keymap="colemak/en-latin9"' > /etc/conf.d/keymaps \
  && rc-update add cgroups sysinit \
  && rc-update add modules boot \
  && rc-update add keymaps boot \
+ && rc-update add hostname boot \
  && rc-update add elogind boot \
  && rc-update add user-runtime default \
  && rc-update add user.kiel default \
@@ -325,7 +371,7 @@ RUN chmod +x /usr/lib/dracut/modules.d/70overlayfs/*.sh \
  && dracut \
       -m "kernel-modules base dmsquash-live dm udev-rules crypt lvm overlayfs" \
       --filesystems "squashfs erofs vfat ext4 overlay btrfs" \
-      --add-drivers "libnvdimm nd_pmem nd_btt nd_blk dax device_dax dax_pmem dax_pmem_core nd_e820" \
+      --add-drivers "libnvdimm nd_pmem nd_btt dax device_dax dax_pmem dax_pmem_core nd_e820" \
       --kver=${KVER_RELEASE} \
       --install "stat blockdev" \
       --force \
@@ -418,10 +464,15 @@ RUN set -e \
       command -v "${bin}" >/dev/null || { echo "MISSING BIN: ${bin}"; exit 1; }; \
     done \
  && strings /usr/local/bin/slstatus | grep -q 'BAT0' \
+ && test -e /etc/runlevels/boot/hostname \
+ && command -v emerge-binpkg >/dev/null \
+ && emerge-binpkg --help >/dev/null \
+ && (command -v firefox >/dev/null || command -v firefox-bin >/dev/null) \
+ && qlist -I | grep -qx 'sys-kernel/installkernel' \
  && ! command -v rustc >/dev/null \
  && ! command -v cargo >/dev/null \
  && ! command -v go >/dev/null \
- && ! qlist -I | grep -qE '^(dev-lang/rust|dev-lang/go|app-portage/gentoolkit)' \
+ && ! qlist -I | grep -qE '^(dev-lang/rust|dev-lang/go|app-portage/gentoolkit|sys-boot/grub)' \
  && lsinitrd /boot/initramfs_squash_sda1-x86_64.img | grep -q 'mount-overlayfs.sh' \
  && cpio -it < /boot/amd-uc.img | grep -q 'AuthenticAMD.bin' \
  && test -s /boot/vmlinuz \
@@ -454,6 +505,18 @@ RUN set -e \
  && rm -rf /usr/lib/firmware/* \
  && cp -a /tmp/fw_nv_root/usr/lib/firmware/. /usr/lib/firmware/ \
  && rm -rf /tmp/fw_nv_root \
+ && printf 'hostname="hpz6"\n' > /etc/conf.d/hostname \
+ && grep -qx 'hostname="hpz6"' /etc/conf.d/hostname \
+ && find /usr/lib /usr/lib64 -type f -name '*.a' \
+      ! -name '*_nonshared.a' \
+      ! -path '/usr/lib/gcc/*' \
+      ! -path '/usr/lib64/gcc/*' \
+      -delete \
+ && printf '#include <iostream>\nint main(){std::cout << "cpp-ok\\n"; return 0;}\n' \
+    | g++ -x c++ - -o /tmp/cpp_smoke \
+ && /tmp/cpp_smoke | grep -qx 'cpp-ok' \
+ && rm -f /tmp/cpp_smoke \
+ && printf '127.0.0.1\thpz6 localhost\n::1\t\thpz6 localhost\n' > /tmp/hosts.variant \
  && mksquashfs / /out/gentoo.squashfs_nv \
    -comp zstd \
    -Xcompression-level 19 \
@@ -467,9 +530,12 @@ RUN set -e \
    -p "/dev d 755 0 0" \
    -p "/proc d 555 0 0" \
    -p "/sys d 555 0 0" \
+   -p "/etc/hosts f 0644 0 0 cat /tmp/hosts.variant" \
    -noI -noX \
    -wildcards \
    -e \
+     etc/hosts \
+     tmp/hosts.variant \
      out \
      usr/src \
      var/cache/binhost \
@@ -491,6 +557,10 @@ RUN set -e \
      var/tmp \
      opt/Signal/LICENSES.chromium.html \
      lost+found \
+ && rm -f /tmp/hosts.variant \
+ && unsquashfs -cat /out/gentoo.squashfs_nv etc/hosts > /tmp/hosts.check \
+ && printf '127.0.0.1\thpz6 localhost\n::1\t\thpz6 localhost\n' | cmp -s - /tmp/hosts.check \
+ && rm -f /tmp/hosts.check \
  && test -s /out/gentoo.squashfs_nv
 
 # ==============================================================================
@@ -591,6 +661,19 @@ RUN --mount=type=cache,target=/var/cache/distfiles,sharing=locked \
  && ! ldd "$(command -v nvme)" | grep -q 'not found' \
  && ! test -e /etc/runlevels/default/reverse-ssh-eu \
  && test -e /etc/iwd/main.conf \
+ && printf 'hostname="e14"\n' > /etc/conf.d/hostname \
+ && grep -qx 'hostname="e14"' /etc/conf.d/hostname \
+ && find /usr/lib /usr/lib64 -type f -name '*.a' \
+      ! -name '*_nonshared.a' \
+      ! -path '/usr/lib/gcc/*' \
+      ! -path '/usr/lib64/gcc/*' \
+      -delete \
+ && printf '#include <iostream>\nint main(){std::cout << "cpp-ok\\n"; return 0;}\n' \
+    | g++ -x c++ - -o /tmp/cpp_smoke \
+ && /tmp/cpp_smoke | grep -qx 'cpp-ok' \
+ && rm -f /tmp/cpp_smoke \
+ && test -e /etc/runlevels/boot/hostname \
+ && printf '127.0.0.1\te14 localhost\n::1\t\te14 localhost\n' > /tmp/hosts.variant \
  && mksquashfs / /out/gentoo.squashfs_e14 \
    -comp zstd \
    -Xcompression-level 19 \
@@ -604,9 +687,12 @@ RUN --mount=type=cache,target=/var/cache/distfiles,sharing=locked \
    -p "/dev d 755 0 0" \
    -p "/proc d 555 0 0" \
    -p "/sys d 555 0 0" \
+   -p "/etc/hosts f 0644 0 0 cat /tmp/hosts.variant" \
    -noI -noX \
    -wildcards \
    -e \
+     etc/hosts \
+     tmp/hosts.variant \
      out \
      usr/src \
      var/cache/binpkgs \
@@ -628,6 +714,10 @@ RUN --mount=type=cache,target=/var/cache/distfiles,sharing=locked \
      var/tmp \
      opt/Signal/LICENSES.chromium.html \
      lost+found \
+ && rm -f /tmp/hosts.variant \
+ && unsquashfs -cat /out/gentoo.squashfs_e14 etc/hosts > /tmp/hosts.check \
+ && printf '127.0.0.1\te14 localhost\n::1\t\te14 localhost\n' | cmp -s - /tmp/hosts.check \
+ && rm -f /tmp/hosts.check \
  && test -s /out/gentoo.squashfs_e14
 
 # ==============================================================================
@@ -642,3 +732,18 @@ COPY --from=target      /boot/amd-uc.img /
 COPY --from=target      /packages.txt /
 COPY --from=target      /packages.tsv /
 COPY --from=target      /IMAGE-BUILD-INFO.txt /
+
+# ==============================================================================
+# Stage 4: Export locally built binpkgs + upstream manifest (cache-preserving)
+# ==============================================================================
+# The builder produced /out_binpkgs before quickpkg/genlop touched the cache;
+# here we only re-verify and refresh the index (no rebuild, no re-download).
+FROM builder AS export-binpkgs
+RUN test -s /out_binpkgs/binpkgs/Packages \
+ && test -s /out_binpkgs/upstream_binpkgs.tsv \
+ && test -s /out_binpkgs/upstream_binpkgs.txt \
+ && PKGDIR=/out_binpkgs/binpkgs emaint --fix binhost \
+ && test -s /out_binpkgs/binpkgs/Packages
+
+FROM scratch AS export-binpkgs-out
+COPY --from=export-binpkgs /out_binpkgs/ /

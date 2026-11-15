@@ -637,3 +637,11 @@ This starts the X server with elevated privileges but runs the X session itself 
 
 > [!NOTE]
 > This is only a live-system workaround. The correct long-term fix is to rebuild the image with `x11-base/xorg-server` using the `suid` USE flag.
+
+---
+
+## Binpkgs nachinstallieren
+
+Siehe [binpkg_overlay_usage.md](binpkg_overlay_usage.md) — `binpkgs/` wird
+nicht auf `/1p2` kopiert; bei Bedarf `BINPKG_DIR` setzen und
+`emerge-binpkg [--offline] <paket>` / `emerge-binpkg --remove --yes <paket>`.

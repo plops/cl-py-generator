@@ -797,3 +797,11 @@ sudo mount -o remount,ro /run/initramfs/live
 
 This restores the configuration saved immediately before this installation;
 review any subsequent GRUB changes before restoring it.
+
+---
+
+## Binpkgs nachinstallieren
+
+Siehe [binpkg_overlay_usage.md](binpkg_overlay_usage.md) — `binpkgs/` wird
+nicht auf `/1p2` kopiert; bei Bedarf `BINPKG_DIR` setzen und
+`emerge-binpkg [--offline] <paket>` / `emerge-binpkg --remove --yes <paket>`.
