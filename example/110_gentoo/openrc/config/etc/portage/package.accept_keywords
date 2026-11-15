@@ -22,7 +22,6 @@ net-wireless/iwgtk ~amd64
 >=net-misc/freerdp-3.17.2-r1 ~amd64
 
 # Initramfs / Kernel
-sys-kernel/dracut-crypt-ssh ~amd64
 <sys-kernel/gentoo-sources-6.19 ~amd64
 
 

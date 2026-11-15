@@ -15,7 +15,6 @@ app-misc/tmux
 app-pda/ifuse
 app-portage/cpuid2cpuflags
 app-portage/eix
-app-portage/gentoolkit
 app-shells/bash-completion
 #app-shells/gentoo-zsh-completions
 #app-shells/zsh
@@ -112,3 +111,5 @@ x11-wm/dwm
 x11-wm/fvwm3
 app-text/zathura
 app-text/zathura-pdf-mupdf
+dev-build/cmake
+dev-util/pkgconf

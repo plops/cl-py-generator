@@ -4,7 +4,7 @@ media-libs/libpulse X
 media-plugins/alsa-plugins pulseaudio
 sys-libs/minizip-ng compat
 x11-wm/dwm savedconfig -xinerama
-sys-fs/lvm2 lvm
+sys-fs/lvm2 lvm readline
 media-video/pipewire alsa dbus sound-server udev
 media-video/wireplumber dbus
 sys-fs/squashfs-tools xattr -debug -lz4 -lzma -lzo zstd
@@ -13,7 +13,7 @@ sys-auth/polkit elogind
 sys-apps/dbus elogind
 app-text/xmlto text
 media-libs/libglvnd X
-x11-libs/libxkbcommon X
+media-libs/libxkbcommon X
 app-editors/emacs -dbus -gmp gtk gui -libxml2 -xpm
 net-analyzer/wireshark -capinfos -captype -dftest -dumpcap -editcap -filecaps -mergecap -minizip -netlink -randpkt -randpktdump -reordercap -sharkd -text2pcap -tshark -udpdump -zstd
 app-text/mupdf -javascript -jpeg2k
@@ -23,11 +23,10 @@ app-text/zathura -man
 dev-vcs/git -gpg -nls -pcre -perl -python_single_target_python3_14 -webdav
 net-misc/mosh -utempter
 net-print/cups -dbus
-sys-power/tlp -ppd -python_single_target_python3_14 -rdw
-www-client/firefox -clang -dbus -gmp-autoupdate -jumbo-build system-pipewire system-png -telemetry
+sys-power/tlp -ppd -rdw
+www-client/firefox -clang -dbus -gmp-autoupdate hwaccel -jumbo-build system-pipewire system-png -telemetry
 dev-debug/gdb -debuginfod -python -python_single_target_python3_14
 media-video/mpv -egl -lua -uchardet vaapi -vulkan
-www-client/firefox -dbus -gmp-autoupdate hwaccel -jumbo-build system-pipewire system-png -telemetry
 x11-base/xorg-server xorg
 app-misc/mc -edit -slang
 dev-debug/strace ncurses
@@ -35,7 +34,12 @@ dev-libs/nss -utils
 net-dns/dnsmasq -dumpfile
 sys-apps/nvme-cli -json
 sys-apps/smartmontools -daemon
-sys-fs/lvm2 lvm readline
 app-admin/sudo -sendmail
 net-dialup/picocom -man
 sys-fs/btrfs-progs -man
+media-libs/mesa -llvm
+# Vom Solver gefordert (implizit durch obige Flags):
+# firefox[system-png] braucht libpng[apng]; mpv[vaapi] braucht ffmpeg[vaapi] + libva[X]
+media-libs/libpng apng
+media-video/ffmpeg vaapi
+media-libs/libva X
