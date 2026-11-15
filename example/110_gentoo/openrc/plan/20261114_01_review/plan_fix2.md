@@ -1,7 +1,3 @@
-Hier ist das vollständige Review (abgeglichen mit allen Antworten und deinem Runner-`Dockerfile`) sowie der finale, schrittweise ausführbare Plan für den Agenten in `/workspace/src/cl-py-generator/example/110_gentoo/openrc`.
-
----
-
 ## Teil 1: Vollständiges Review & Zielarchitektur
 
 ### 1.1 Gefundene Bugs, Widersprüche und Altlasten
