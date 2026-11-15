@@ -1,0 +1,30 @@
+# Build- und Laufzeitlogs
+logs/
+
+# Exportierte Bundles und temporaere Arbeitsverzeichnisse
+out_export/
+out_test/
+*.tmp.*
+
+# Gebaute Images, Kernel, Initramfs und Microcode
+*.squashfs*
+*.erofs*
+*.img
+*.qcow2
+*.raw
+vmlinuz
+vmlinuz-*
+
+# Exportierte Binaerpacket-Caches und Manifeste
+binpkgs/
+Packages
+Packages.gz
+upstream_binpkgs*
+
+# Generierte Diagramme/Bilder
+*.png
+
+# Editor-/Backup-Reste
+*~
+*.bak-*
+.DS_Store
