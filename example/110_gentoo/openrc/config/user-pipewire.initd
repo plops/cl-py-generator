@@ -3,6 +3,8 @@
 description="PipeWire media server"
 command="/usr/bin/pipewire"
 command_background="yes"
+output_log="${XDG_RUNTIME_DIR}/pipewire.log"
+error_log="${XDG_RUNTIME_DIR}/pipewire.log"
 pidfile="${XDG_RUNTIME_DIR}/pipewire.pid"
 
 depend() {

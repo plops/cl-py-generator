@@ -3,6 +3,8 @@
 description="WirePlumber session manager"
 command="/usr/bin/wireplumber"
 command_background="yes"
+output_log="${XDG_RUNTIME_DIR}/wireplumber.log"
+error_log="${XDG_RUNTIME_DIR}/wireplumber.log"
 pidfile="${XDG_RUNTIME_DIR}/wireplumber.pid"
 
 depend() {
