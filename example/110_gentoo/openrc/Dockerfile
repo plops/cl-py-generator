@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
-ARG PORTAGE_TAG=20261115
-ARG STAGE3_TAG=nomultilib-20261109
+ARG PORTAGE_TAG=20261119
+ARG STAGE3_TAG=nomultilib-20261116
 
 FROM gentoo/portage:${PORTAGE_TAG} AS portage
 FROM gentoo/stage3:${STAGE3_TAG} AS stage3_base
