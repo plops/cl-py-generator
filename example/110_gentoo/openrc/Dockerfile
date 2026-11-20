@@ -509,11 +509,13 @@ RUN set -e \
  && grep -qx 'hostname="hpz6"' /etc/conf.d/hostname \
  && find /usr/lib /usr/lib64 -type f -name '*.a' \
       ! -name '*_nonshared.a' \
+      ! -name 'libpthread.a' ! -name 'libdl.a' ! -name 'librt.a' \
+      ! -name 'libutil.a' ! -name 'libanl.a' \
       ! -path '/usr/lib/gcc/*' \
       ! -path '/usr/lib64/gcc/*' \
       -delete \
  && printf '#include <iostream>\nint main(){std::cout << "cpp-ok\\n"; return 0;}\n' \
-    | g++ -x c++ - -o /tmp/cpp_smoke \
+    | g++ -x c++ - -o /tmp/cpp_smoke -lpthread -ldl -lrt -lutil -lanl \
  && /tmp/cpp_smoke | grep -qx 'cpp-ok' \
  && rm -f /tmp/cpp_smoke \
  && printf '127.0.0.1\thpz6 localhost\n::1\t\thpz6 localhost\n' > /tmp/hosts.variant \
@@ -665,11 +667,13 @@ RUN --mount=type=cache,target=/var/cache/distfiles,sharing=locked \
  && grep -qx 'hostname="e14"' /etc/conf.d/hostname \
  && find /usr/lib /usr/lib64 -type f -name '*.a' \
       ! -name '*_nonshared.a' \
+      ! -name 'libpthread.a' ! -name 'libdl.a' ! -name 'librt.a' \
+      ! -name 'libutil.a' ! -name 'libanl.a' \
       ! -path '/usr/lib/gcc/*' \
       ! -path '/usr/lib64/gcc/*' \
       -delete \
  && printf '#include <iostream>\nint main(){std::cout << "cpp-ok\\n"; return 0;}\n' \
-    | g++ -x c++ - -o /tmp/cpp_smoke \
+    | g++ -x c++ - -o /tmp/cpp_smoke -lpthread -ldl -lrt -lutil -lanl \
  && /tmp/cpp_smoke | grep -qx 'cpp-ok' \
  && rm -f /tmp/cpp_smoke \
  && test -e /etc/runlevels/boot/hostname \
